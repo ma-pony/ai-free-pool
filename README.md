@@ -1,141 +1,58 @@
-# Boilerplate and Starter for Next.js 16+, Tailwind CSS 4, and TypeScript.
+# AI Free Pool - Discover AI Free Credit Campaigns
 
-<p align="center">
-  <a href="https://demo.nextjs-boilerplate.com">
-    <img
-      src="public/assets/images/nextjs-starter-banner.png?raw=true"
-      alt="Next js starter banner"
-      style="max-width: 100%; height: auto;"
-    />
-  </a>
-</p>
+🚀 **AI Free Pool** is a platform dedicated to sharing AI free credit campaigns, helping users discover and track various AI tools' free credit offers. Built with Next.js 16, TypeScript, Tailwind CSS 4, and modern web technologies.
 
-🚀 Boilerplate and Starter for Next.js with App Router, Tailwind CSS, and TypeScript ⚡️ Prioritizing developer experience first: Next.js, TypeScript, ESLint, Prettier, Lefthook (replacing Husky), Lint-Staged, Vitest (replacing Jest), Testing Library, Playwright, Commitlint, VSCode, Tailwind CSS, Authentication with [Clerk](https://clerk.com?utm_source=github&utm_medium=sponsorship&utm_campaign=nextjs-boilerplate), Database with DrizzleORM (PostgreSQL, SQLite, and MySQL), Local database with PGlite and production with Neon (PostgreSQL), Error Monitoring with [Sentry](https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo), Logging with LogTape (replacing Pino.js) and Log Management, Monitoring as Code, Storybook, Multi-language (i18n), AI-powered code reviews with CodeRabbit, Secure with [Arcjet](https://launch.arcjet.com/Q6eLbRE) (Bot detection, Rate limiting, Attack protection, etc.), and more.
+## 🌟 About
 
-Clone this project and use it to create your own Next.js project. You can check out the live demo at [Next.js Boilerplate](https://demo.nextjs-boilerplate.com), which includes a working authentication system.
+AI Free Pool (AI 免费资源池) aggregates free credit campaigns from various AI platforms like OpenAI, Anthropic, Google AI, and more. Users can:
 
-## Sponsors
+- 🔍 **Discover** the latest AI free credit campaigns
+- 📊 **Track** campaign validity through community feedback
+- 💬 **Share** experiences and tips in comments
+- 🔖 **Bookmark** interesting campaigns for later
+- 🌐 **Browse** in English or Chinese with AI-powered translations
+- 📱 **Access** from any device with mobile-first responsive design
 
-<table width="100%">
-  <tr height="187px">
-    <td align="center" width="33%">
-      <a href="https://clerk.com?utm_source=github&utm_medium=sponsorship&utm_campaign=nextjs-boilerplate">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="https://github.com/ixartz/SaaS-Boilerplate/assets/1328388/6fb61971-3bf1-4580-98a0-10bd3f1040a2">
-          <source media="(prefers-color-scheme: light)" srcset="https://github.com/ixartz/SaaS-Boilerplate/assets/1328388/f80a8bb5-66da-4772-ad36-5fabc5b02c60">
-          <img alt="Clerk – Authentication & User Management for Next.js" src="https://github.com/ixartz/SaaS-Boilerplate/assets/1328388/f80a8bb5-66da-4772-ad36-5fabc5b02c60">
-        </picture>
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="https://www.coderabbit.ai?utm_source=next_js_starter&utm_medium=github&utm_campaign=next_js_starter_oss_2025">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/coderabbit-logo-dark.svg?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/coderabbit-logo-light.svg?raw=true">
-          <img alt="CodeRabbit" src="public/assets/images/coderabbit-logo-light.svg?raw=true">
-        </picture>
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/sentry-white.png?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/sentry-dark.png?raw=true">
-          <img alt="Sentry" src="public/assets/images/sentry-dark.png?raw=true">
-        </picture>
-      </a>
-      <a href="https://about.codecov.io/codecov-free-trial/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/codecov-white.svg?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/codecov-dark.svg?raw=true">
-          <img alt="Codecov" src="public/assets/images/codecov-dark.svg?raw=true">
-        </picture>
-      </a>
-    </td>
-  </tr>
-  <tr height="187px">
-    <td align="center" width="33%">
-      <a href="https://launch.arcjet.com/Q6eLbRE">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/arcjet-dark.svg?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/arcjet-light.svg?raw=true">
-          <img alt="Arcjet" src="public/assets/images/arcjet-light.svg?raw=true">
-        </picture>
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="https://sevalla.com/">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/sevalla-dark.png">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/sevalla-light.png">
-          <img alt="Sevalla" src="public/assets/images/sevalla-light.png">
-        </picture>
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="https://l.crowdin.com/next-js">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/crowdin-white.png?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/crowdin-dark.png?raw=true">
-          <img alt="Crowdin" src="public/assets/images/crowdin-dark.png?raw=true">
-        </picture>
-      </a>
-    </td>
-  </tr>
-  <tr height="187px">
-    <td align="center" width="33%">
-      <a href="https://betterstack.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/better-stack-white.png?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/better-stack-dark.png?raw=true">
-          <img alt="Better Stack" src="public/assets/images/better-stack-dark.png?raw=true">
-        </picture>
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="https://posthog.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="https://posthog.com/brand/posthog-logo-white.svg">
-          <source media="(prefers-color-scheme: light)" srcset="https://posthog.com/brand/posthog-logo.svg">
-          <img alt="PostHog" src="https://posthog.com/brand/posthog-logo.svg">
-        </picture>
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="https://www.checklyhq.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/checkly-logo-dark.png?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/checkly-logo-light.png?raw=true">
-          <img alt="Checkly" src="public/assets/images/checkly-logo-light.png?raw=true">
-        </picture>
-      </a>
-    </td>
-  </tr>
-  <tr height="187px">
-    <td align="center" style=width="33%">
-      <a href="https://nextjs-boilerplate.com/pro-saas-starter-kit">
-        <img src="public/assets/images/nextjs-boilerplate-saas.png?raw=true" alt="Next.js SaaS Boilerplate with React" />
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="mailto:contact@creativedesignsguru.com">
-        Add your logo here
-      </a>
-    </td>
-  </tr>
-</table>
+## 🚀 Deployment Status
 
-### Demo
+**Status:** ✅ Ready for Deployment (pending TypeScript fixes)
 
-**Live demo: [Next.js Boilerplate](https://demo.nextjs-boilerplate.com)**
+The project is fully configured and documented for production deployment to Vercel.
 
-| Sign Up | Sign In |
-| --- | --- |
-| [![Next.js Boilerplate SaaS Sign Up](public/assets/images/nextjs-boilerplate-sign-in.png)](https://demo.nextjs-boilerplate.com/sign-up) | [![Next.js Boilerplate SaaS Sign In](public/assets/images/nextjs-boilerplate-sign-in.png)](https://demo.nextjs-boilerplate.com/sign-in) |
+### Deployment Documentation
 
-### Features
+- 📋 [Deployment Summary](DEPLOYMENT_SUMMARY.md) - Overview of deployment preparation
+- 📖 [Deployment Guide](DEPLOYMENT.md) - Comprehensive deployment guide
+- 🔧 [Vercel Deployment Guide](VERCEL_DEPLOYMENT_GUIDE.md) - Step-by-step Vercel setup
+- ✅ [Pre-Deployment Checklist](PRE_DEPLOYMENT_CHECKLIST.md) - Complete checklist
+- 🔍 [Post-Deployment Verification](POST_DEPLOYMENT_VERIFICATION.md) - Verification guide
+- 🔧 [TypeScript Fixes Guide](TYPESCRIPT_FIXES_GUIDE.md) - Fix TypeScript errors
+- ⚡ [Quick Reference](DEPLOYMENT_QUICK_REFERENCE.md) - Quick deployment reference
 
-Developer experience first, extremely flexible code structure and only keep what you need:
+### Next Steps
+
+1. Fix TypeScript errors (see [TYPESCRIPT_FIXES_GUIDE.md](TYPESCRIPT_FIXES_GUIDE.md))
+2. Complete [PRE_DEPLOYMENT_CHECKLIST.md](PRE_DEPLOYMENT_CHECKLIST.md)
+3. Follow [VERCEL_DEPLOYMENT_GUIDE.md](VERCEL_DEPLOYMENT_GUIDE.md)
+4. Verify deployment with [POST_DEPLOYMENT_VERIFICATION.md](POST_DEPLOYMENT_VERIFICATION.md)
+
+## ✨ Key Features
+
+### Platform Features
+- 🎯 **Campaign Management**: Browse, search, and filter AI free credit campaigns
+- 👥 **User Contributions**: Submit new campaigns for community benefit
+- ⚡ **Quick Reactions**: Vote on campaign validity (still works, expired, incorrect info)
+- 💬 **Comment System**: Share experiences with nested replies and emoji reactions
+- 🔖 **Bookmarks**: Save campaigns for later reference
+- 🏷️ **Smart Tagging**: Filter by conditions (new users, credit card required, etc.)
+- 📊 **Difficulty Levels**: Auto-calculated based on registration requirements
+- 🌐 **Bilingual Support**: English and Chinese with AI-powered translations
+- 📱 **Mobile-First**: Optimized for mobile devices with responsive design
+- 🔒 **Secure**: Bot detection, rate limiting, and API encryption
+
+### Technical Features
+
+Built on a modern tech stack with developer experience in mind:
 
 - ⚡ [Next.js](https://nextjs.org) with App Router support
 - 🔥 Type checking [TypeScript](https://www.typescriptlang.org)
@@ -209,25 +126,41 @@ Optional features (easy to add):
 
 - Node.js 22+ and npm
 
-### Getting started
+### Getting Started
 
-Run the following command on your local environment:
+#### Prerequisites
+- Node.js 20+ and npm
+- A Clerk account for authentication
+- An OpenAI API key for translations
+- (Optional) A Neon PostgreSQL database for production
 
+#### Installation
+
+1. Clone the repository:
 ```shell
-git clone --depth=1 https://github.com/ixartz/Next-js-Boilerplate.git my-project-name
-cd my-project-name
+git clone <repository-url> ai-free-pool
+cd ai-free-pool
 npm install
 ```
 
-For your information, all dependencies are updated every month.
+2. Set up environment variables:
+```shell
+cp .env.example .env.local
+```
 
-Then, you can run the project locally in development mode with live reload by executing:
+Edit `.env.local` and add your configuration:
+- **Clerk**: Get keys from [clerk.com](https://clerk.com) (enable Google & GitHub OAuth)
+- **OpenAI**: Get API key from [platform.openai.com](https://platform.openai.com/api-keys)
+- **Database**: Run `npm run neon:claim` for a persistent database
+- **Arcjet**: Get key from [arcjet.com](https://launch.arcjet.com/Q6eLbRE)
+- **Encryption**: Generate with `openssl rand -hex 32`
 
+3. Run the development server:
 ```shell
 npm run dev
 ```
 
-Open http://localhost:3000 with your favorite browser to see your project. For your information, the project is already pre-configured with a database.
+Open http://localhost:3000 with your favorite browser to see the application.
 
 > [!WARNING]
 > Next.js Boilerplate ships with a fully working Postgres database for your local environment. This database is **temporary** and will expire after **72 hours** if you don't claim it.
@@ -241,16 +174,34 @@ Open http://localhost:3000 with your favorite browser to see your project. For y
 
 Need advanced features? Multi-tenancy & Teams, Roles & Permissions, Shadcn UI, End-to-End Typesafety with oRPC, Stripe Payment, Light / Dark mode. Try [Next.js Boilerplate Pro](https://nextjs-boilerplate.com/pro-saas-starter-kit).
 
-### Set up authentication
+### Set up Authentication with Clerk
 
-To get started, you will need to create a Clerk account at [Clerk.com](https://clerk.com?utm_source=github&utm_medium=sponsorship&utm_campaign=nextjs-boilerplate) and create a new application in the Clerk Dashboard. Once you have done that, copy the `NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY` and `CLERK_SECRET_KEY` values and add them to the `.env.local` file (not tracked by Git):
+1. Create a Clerk account at [Clerk.com](https://clerk.com)
+2. Create a new application in the Clerk Dashboard
+3. **Enable OAuth Providers**:
+   - Go to "User & Authentication" → "Social Connections"
+   - Enable **Google** and **GitHub** providers
+   - Configure OAuth settings for each provider
+4. Copy your keys and add them to `.env.local`:
 
 ```shell
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_pub_key
 CLERK_SECRET_KEY=your_clerk_secret_key
 ```
 
-Now you have a fully functional authentication system with Next.js, including features such as sign up, sign in, sign out, forgot password, reset password, update profile, update password, update email, delete account, and more.
+Now you have a fully functional authentication system with social login support.
+
+### Set up Admin Permissions
+
+To access the admin dashboard at `/admin`, you need to configure admin permissions:
+
+**Quick Setup (5 minutes)**: See [ADMIN_QUICK_START.md](ADMIN_QUICK_START.md)
+
+**Detailed Guide**: See [ADMIN_SETUP.md](ADMIN_SETUP.md)
+
+Two methods available:
+- **Method 1**: Add user IDs to `ADMIN_USER_IDS` environment variable (fastest)
+- **Method 2**: Set `role: "admin"` in Clerk user metadata (recommended for production)
 
 ### Set up remote database
 
@@ -318,17 +269,27 @@ After defining the environment variables in your GitHub Actions, your localizati
 └── tsconfig.json                   # TypeScript configuration
 ```
 
+### Configuration Files
+
+Key configuration files for AI Free Pool:
+
+- **`.env.local`**: Your local environment variables (copy from `.env.local.example`)
+- **`src/utils/AppConfig.ts`**: Application configuration (name, locales, etc.)
+- **`CONFIGURATION.md`**: Detailed setup guide for all services
+- **`next.config.ts`**: Next.js configuration
+- **`src/models/Schema.ts`**: Database schema definition
+
 ### Customization
 
-You can easily configure Next js Boilerplate by searching the entire project for `FIXME:` to make quick customizations. Here are some of the most important files to customize:
+To customize the platform:
 
-- `public/apple-touch-icon.png`, `public/favicon.ico`, `public/favicon-16x16.png` and `public/favicon-32x32.png`: your website favicon
-- `src/utils/AppConfig.ts`: configuration file
-- `src/templates/BaseTemplate.tsx`: default theme
-- `next.config.ts`: Next.js configuration
-- `.env`: default environment variables
+1. **Branding**: Update `AppConfig.ts` with your project details
+2. **Favicon**: Replace files in `public/` directory
+3. **Locales**: Add translations in `src/locales/` (en.json, zh.json)
+4. **Theme**: Modify Tailwind CSS in `src/styles/global.css`
+5. **Database**: Update schema in `src/models/Schema.ts`
 
-You have full access to the source code for further customization. The provided code is just an example to help you start your project. The sky's the limit 🚀.
+You have full access to the source code for further customization. The sky's the limi
 
 ### Change database schema
 
@@ -522,18 +483,18 @@ Arcjet is configured with a central client at `src/libs/Arcjet.ts` that includes
 
 The project includes several commands to ensure code quality and consistency. You can run:
 
-- `npm run lint` to check for linting errors
-- `npm run lint:fix` to automatically fix fixable issues from the linter
-- `npm run check:types` to verify type safety across the entire project
-- `npm run check:deps` help identify unused dependencies and files
-- `npm run check:i18n` ensures all translations are complete and properly formatted
+- `pnpm run lint` to check for linting errors
+- `pnpm run lint:fix` to automatically fix fixable issues from the linter
+- `pnpm run check:types` to verify type safety across the entire project
+- `pnpm run check:deps` help identify unused dependencies and files
+- `pnpm run check:i18n` ensures all translations are complete and properly formatted
 
 #### Bundle Analyzer
 
 Next.js Boilerplate includes a built-in bundle analyzer. It can be used to analyze the size of your JavaScript bundles. To begin, run the following command:
 
 ```shell
-npm run build-stats
+pnpm run build-stats
 ```
 
 By running the command, it'll automatically open a new browser window with the results.
@@ -543,7 +504,7 @@ By running the command, it'll automatically open a new browser window with the r
 The project is already configured with Drizzle Studio to explore the database. You can run the following command to open the database studio:
 
 ```shell
-npm run db:studio
+pnpm run db:studio
 ```
 
 Then, you can open https://local.drizzle.studio with your favorite browser to explore your database.
@@ -565,122 +526,3 @@ Everyone is welcome to contribute to this project. Feel free to open an issue if
 Licensed under the MIT License, Copyright © 2025
 
 See [LICENSE](LICENSE) for more information.
-
-## Sponsors
-
-<table width="100%">
-  <tr height="187px">
-    <td align="center" width="33%">
-      <a href="https://clerk.com?utm_source=github&utm_medium=sponsorship&utm_campaign=nextjs-boilerplate">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="https://github.com/ixartz/SaaS-Boilerplate/assets/1328388/6fb61971-3bf1-4580-98a0-10bd3f1040a2">
-          <source media="(prefers-color-scheme: light)" srcset="https://github.com/ixartz/SaaS-Boilerplate/assets/1328388/f80a8bb5-66da-4772-ad36-5fabc5b02c60">
-          <img alt="Clerk – Authentication & User Management for Next.js" src="https://github.com/ixartz/SaaS-Boilerplate/assets/1328388/f80a8bb5-66da-4772-ad36-5fabc5b02c60">
-        </picture>
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="https://www.coderabbit.ai?utm_source=next_js_starter&utm_medium=github&utm_campaign=next_js_starter_oss_2025">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/coderabbit-logo-dark.svg?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/coderabbit-logo-light.svg?raw=true">
-          <img alt="CodeRabbit" src="public/assets/images/coderabbit-logo-light.svg?raw=true">
-        </picture>
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="https://sentry.io/for/nextjs/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/sentry-white.png?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/sentry-dark.png?raw=true">
-          <img alt="Sentry" src="public/assets/images/sentry-dark.png?raw=true">
-        </picture>
-      </a>
-      <a href="https://about.codecov.io/codecov-free-trial/?utm_source=github&utm_medium=paid-community&utm_campaign=general-fy25q1-nextjs&utm_content=github-banner-nextjsboilerplate-logo">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/codecov-white.svg?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/codecov-dark.svg?raw=true">
-          <img alt="Codecov" src="public/assets/images/codecov-dark.svg?raw=true">
-        </picture>
-      </a>
-    </td>
-  </tr>
-  <tr height="187px">
-    <td align="center" width="33%">
-      <a href="https://launch.arcjet.com/Q6eLbRE">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/arcjet-dark.svg?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/arcjet-light.svg?raw=true">
-          <img alt="Arcjet" src="public/assets/images/arcjet-light.svg?raw=true">
-        </picture>
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="https://sevalla.com/">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/sevalla-dark.png">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/sevalla-light.png">
-          <img alt="Sevalla" src="public/assets/images/sevalla-light.png">
-        </picture>
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="https://l.crowdin.com/next-js">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/crowdin-white.png?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/crowdin-dark.png?raw=true">
-          <img alt="Crowdin" src="public/assets/images/crowdin-dark.png?raw=true">
-        </picture>
-      </a>
-    </td>
-  </tr>
-  <tr height="187px">
-    <td align="center" width="33%">
-      <a href="https://betterstack.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/better-stack-white.png?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/better-stack-dark.png?raw=true">
-          <img alt="Better Stack" src="public/assets/images/better-stack-dark.png?raw=true">
-        </picture>
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="https://posthog.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="https://posthog.com/brand/posthog-logo-white.svg">
-          <source media="(prefers-color-scheme: light)" srcset="https://posthog.com/brand/posthog-logo.svg">
-          <img alt="PostHog" src="https://posthog.com/brand/posthog-logo.svg">
-        </picture>
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="https://www.checklyhq.com/?utm_source=github&utm_medium=sponsorship&utm_campaign=next-js-boilerplate">
-        <picture>
-          <source media="(prefers-color-scheme: dark)" srcset="public/assets/images/checkly-logo-dark.png?raw=true">
-          <source media="(prefers-color-scheme: light)" srcset="public/assets/images/checkly-logo-light.png?raw=true">
-          <img alt="Checkly" src="public/assets/images/checkly-logo-light.png?raw=true">
-        </picture>
-      </a>
-    </td>
-  </tr>
-  <tr height="187px">
-    <td align="center" style=width="33%">
-      <a href="https://nextjs-boilerplate.com/pro-saas-starter-kit">
-        <img src="public/assets/images/nextjs-boilerplate-saas.png?raw=true" alt="Next.js SaaS Boilerplate with React" />
-      </a>
-    </td>
-    <td align="center" width="33%">
-      <a href="mailto:contact@creativedesignsguru.com">
-        Add your logo here
-      </a>
-    </td>
-  </tr>
-</table>
-
----
-
-Made with ♥ by [CreativeDesignsGuru](https://creativedesignsguru.com) [![Twitter](https://img.shields.io/twitter/url/https/twitter.com/cloudposse.svg?style=social&label=Follow%20%40Ixartz)](https://twitter.com/ixartz)
-
-Looking for a custom boilerplate to kick off your project? I'd be glad to discuss how I can help you build one. Feel free to reach out anytime at contact@creativedesignsguru.com!
-
-[![Sponsor Next JS Boilerplate](https://cdn.buymeacoffee.com/buttons/default-red.png)](https://github.com/sponsors/ixartz)

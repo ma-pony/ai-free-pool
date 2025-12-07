@@ -1,0 +1,1 @@
+ALTER TABLE "campaigns" ADD COLUMN "needs_verification" boolean DEFAULT false NOT NULL;

@@ -1,25 +1,10 @@
-import type { Metadata } from 'next';
-import { getTranslations } from 'next-intl/server';
-import { Hello } from '@/components/Hello';
+import { redirect } from 'next/navigation';
 
-export async function generateMetadata(props: {
+export default async function Dashboard(props: {
   params: Promise<{ locale: string }>;
-}): Promise<Metadata> {
+}) {
   const { locale } = await props.params;
-  const t = await getTranslations({
-    locale,
-    namespace: 'Dashboard',
-  });
 
-  return {
-    title: t('meta_title'),
-  };
-}
-
-export default function Dashboard() {
-  return (
-    <div className="py-5 [&_p]:my-6">
-      <Hello />
-    </div>
-  );
+  // Redirect to profile page
+  redirect(`/${locale}/dashboard/profile`);
 }

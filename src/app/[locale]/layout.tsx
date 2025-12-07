@@ -1,9 +1,10 @@
 import type { Metadata } from 'next';
+import { ClerkProvider } from '@clerk/nextjs';
 import { hasLocale, NextIntlClientProvider } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
 import { notFound } from 'next/navigation';
 import { PostHogProvider } from '@/components/analytics/PostHogProvider';
-import { DemoBadge } from '@/components/DemoBadge';
+import SocialMediaPromptProvider from '@/components/SocialMediaPromptProvider';
 import { routing } from '@/libs/I18nRouting';
 import '@/styles/global.css';
 
@@ -48,16 +49,21 @@ export default async function RootLayout(props: {
 
   setRequestLocale(locale);
 
-  return (
-    <html lang={locale}>
-      <body>
-        <NextIntlClientProvider>
-          <PostHogProvider>
-            {props.children}
-          </PostHogProvider>
+  // Load messages for client components
+  const messages = (await import(`../../locales/${locale}.json`)).default;
 
-          <DemoBadge />
-        </NextIntlClientProvider>
+  return (
+    <html lang={locale} suppressHydrationWarning>
+      <body suppressHydrationWarning>
+        <ClerkProvider>
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <PostHogProvider>
+              <SocialMediaPromptProvider>
+                {props.children}
+              </SocialMediaPromptProvider>
+            </PostHogProvider>
+          </NextIntlClientProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

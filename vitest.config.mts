@@ -35,6 +35,8 @@ export default defineConfig({
               { browser: 'chromium' },
             ],
           },
+          globals: true,
+          setupFiles: ['./vitest.browser.setup.ts'],
         },
       },
     ],

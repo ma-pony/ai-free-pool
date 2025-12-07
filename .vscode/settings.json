@@ -62,5 +62,6 @@
     "pcss",
     "postcss",
     "github-actions-workflow"
-  ]
+  ],
+  "typescript.autoClosingTags": false
 }

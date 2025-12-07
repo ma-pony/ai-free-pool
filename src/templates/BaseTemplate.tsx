@@ -1,4 +1,7 @@
-import { useTranslations } from 'next-intl';
+'use client';
+
+import Link from 'next/link';
+import SocialMediaIcons from '@/components/SocialMediaIcons';
 import { AppConfig } from '@/utils/AppConfig';
 
 export const BaseTemplate = (props: {
@@ -6,54 +9,58 @@ export const BaseTemplate = (props: {
   rightNav?: React.ReactNode;
   children: React.ReactNode;
 }) => {
-  const t = useTranslations('BaseTemplate');
-
   return (
-    <div className="w-full px-1 text-gray-700 antialiased">
-      <div className="mx-auto max-w-screen-md">
-        <header className="border-b border-gray-300">
-          <div className="pt-16 pb-8">
-            <h1 className="text-3xl font-bold text-gray-900">
-              {AppConfig.name}
-            </h1>
-            <h2 className="text-xl">{t('description')}</h2>
-          </div>
+    <div className="w-full text-gray-700 antialiased">
+      <div className="mx-auto max-w-7xl px-4">
+        {/* Compact Header */}
+        <header className="sticky top-0 z-40 -mx-4 border-b border-gray-200 bg-white/95 px-4 backdrop-blur-sm">
+          <div className="flex h-16 items-center justify-between">
+            {/* Logo */}
+            <Link href="/" className="flex items-center gap-2">
+              <span className="text-2xl">🎯</span>
+              <span className="text-xl font-bold text-gray-900 sm:text-2xl">
+                {AppConfig.name}
+              </span>
+            </Link>
 
-          <div className="flex justify-between">
-            <nav aria-label="Main navigation">
-              <ul className="flex flex-wrap gap-x-5 text-xl">
+            {/* Desktop Navigation */}
+            <nav aria-label="Main navigation" className="hidden md:block">
+              <ul className="flex items-center gap-x-6 text-base">
                 {props.leftNav}
               </ul>
             </nav>
 
-            <nav>
-              <ul className="flex flex-wrap gap-x-5 text-xl">
+            {/* Right Actions */}
+            <nav className="hidden md:block">
+              <ul className="flex items-center gap-x-4 text-base">
                 {props.rightNav}
               </ul>
             </nav>
           </div>
         </header>
 
-        <main>{props.children}</main>
+        <main className="min-h-[60vh] py-6">{props.children}</main>
 
-        <footer className="border-t border-gray-300 py-8 text-center text-sm">
-          {`© Copyright ${new Date().getFullYear()} ${AppConfig.name}. `}
-          {t.rich('made_with', {
-            author: () => (
-              <a
-                href="https://nextjs-boilerplate.com"
-                className="text-blue-700 hover:border-b-2 hover:border-blue-700"
-              >
-                Next.js Boilerplate
-              </a>
-            ),
-          })}
-          {/*
-           * PLEASE READ THIS SECTION
-           * I'm an indie maker with limited resources and funds, I'll really appreciate if you could have a link to my website.
-           * The link doesn't need to appear on every pages, one link on one page is enough.
-           * For example, in the `About` page. Thank you for your support, it'll mean a lot to me.
-           */}
+        <footer className="mb-16 border-t border-gray-200 py-8 md:mb-0">
+          <div className="mx-auto max-w-5xl">
+            {/* Social Media Section */}
+            <div className="mb-6">
+              <h3 className="mb-4 text-center text-base font-semibold text-gray-900">
+                Follow Us
+              </h3>
+              <div className="flex justify-center">
+                <SocialMediaIcons iconSize="md" variant="colored" showLabels />
+              </div>
+              <p className="mt-4 text-center text-sm text-gray-600">
+                Stay updated with the latest AI free credit campaigns
+              </p>
+            </div>
+
+            {/* Copyright */}
+            <div className="text-center text-sm text-gray-500">
+              {`© ${new Date().getFullYear()} ${AppConfig.name}. All rights reserved.`}
+            </div>
+          </div>
         </footer>
       </div>
     </div>

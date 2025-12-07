@@ -21,15 +21,23 @@ export default async function DashboardLayout(props: {
         <>
           <li>
             <Link
-              href="/dashboard/"
+              href="/"
               className="border-none text-gray-700 hover:text-gray-900"
             >
-              {t('dashboard_link')}
+              {t('home_link')}
             </Link>
           </li>
           <li>
             <Link
-              href="/dashboard/user-profile/"
+              href="/campaigns"
+              className="border-none text-gray-700 hover:text-gray-900"
+            >
+              {t('campaigns_link')}
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/dashboard/profile/"
               className="border-none text-gray-700 hover:text-gray-900"
             >
               {t('user_profile_link')}

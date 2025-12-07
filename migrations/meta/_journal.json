@@ -8,6 +8,34 @@
       "when": 1745518076143,
       "tag": "0000_init-db",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1764659449385,
+      "tag": "0001_condemned_adam_warlock",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1764670630286,
+      "tag": "0002_gifted_hedge_knight",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1764686521229,
+      "tag": "0003_nosy_vector",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1765119027440,
+      "tag": "0004_mixed_storm",
+      "breakpoints": true
     }
   ]
 }
