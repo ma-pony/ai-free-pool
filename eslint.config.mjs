@@ -32,6 +32,7 @@ export default antfu(
       'docs/**/*',
       '.kiro/**/*',
       '.next/**/*',
+      'scripts/**/*',
     ],
   },
   // --- Accessibility Rules ---
