@@ -77,8 +77,7 @@ export const campaigns = pgTable(
   {
     id: uuid('id').primaryKey().defaultRandom(),
     platformId: uuid('platform_id')
-      .notNull()
-      .references(() => platforms.id),
+      .references(() => platforms.id), // Nullable when pending platform review
     slug: varchar('slug', { length: 255 }).notNull().unique(),
     status: varchar('status', { length: 50 }).notNull().default('pending'), // pending, published, rejected, expired
     freeCredit: text('free_credit'), // e.g., "$5 USD", "10000 tokens"
@@ -92,6 +91,13 @@ export const campaigns = pgTable(
     featuredUntil: timestamp('featured_until'),
     needsVerification: boolean('needs_verification').notNull().default(false),
     submittedBy: varchar('submitted_by', { length: 255 }), // Clerk user ID
+    // Pending platform info - stored when user submits a new platform for review
+    pendingPlatform: jsonb('pending_platform').$type<{
+      name: string;
+      slug: string;
+      website?: string;
+      description?: string;
+    }>(),
     createdAt: timestamp('created_at').notNull().defaultNow(),
     updatedAt: timestamp('updated_at')
       .notNull()
@@ -251,7 +257,7 @@ export const comments = pgTable(
       .notNull()
       .references(() => campaigns.id, { onDelete: 'cascade' }),
     userId: varchar('user_id', { length: 255 }).notNull(), // Clerk user ID
-    parentId: uuid('parent_id').references(() => comments.id, { onDelete: 'cascade' }),
+    parentId: uuid('parent_id'),
     content: text('content').notNull(),
     isMarkedUseful: boolean('is_marked_useful').notNull().default(false),
     createdAt: timestamp('created_at').notNull().defaultNow(),

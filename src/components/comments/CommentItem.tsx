@@ -43,7 +43,7 @@ export function CommentItem({
   depth = 0,
 }: CommentItemProps) {
   const { isSignedIn, userId } = useAuth();
-  const { user: currentUser } = useUser();
+  useUser(); // Keep hook for potential future use
 
   const [showReplyForm, setShowReplyForm] = useState(false);
   const [isEditing, setIsEditing] = useState(false);

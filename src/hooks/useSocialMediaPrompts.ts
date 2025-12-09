@@ -6,8 +6,6 @@ import { trackSocialMediaPrompt } from '@/libs/Analytics';
 type PromptTrigger = 'welcome' | 'bookmark' | 'expired' | null;
 
 const STORAGE_KEY = 'aifreepool_social_prompts';
-const WELCOME_SHOWN_KEY = 'welcome_shown';
-const BOOKMARK_COUNT_KEY = 'bookmark_count';
 const WELCOME_DISMISS_DAYS = 7;
 
 type PromptState = {

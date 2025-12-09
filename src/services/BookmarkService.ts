@@ -53,7 +53,7 @@ export async function getBookmarksByUser(userId: string): Promise<BookmarkWithCa
   });
 
   // Filter out bookmarks for deleted campaigns
-  return result.filter(b => b.campaign && !b.campaign.deletedAt) as BookmarkWithCampaign[];
+  return result.filter(b => b.campaign && !(b.campaign as any).deletedAt) as BookmarkWithCampaign[];
 }
 
 /**
@@ -204,18 +204,21 @@ export async function getBookmarksWithExpiredStatus(
   });
 
   return userBookmarks
-    .filter(b => b.campaign && !b.campaign.deletedAt)
-    .map(b => ({
-      bookmark: {
-        id: b.id,
-        userId: b.userId,
-        campaignId: b.campaignId,
-        createdAt: b.createdAt,
-      },
-      isExpired:
-        b.campaign.status === 'expired'
-        || (b.campaign.endDate !== null && new Date(b.campaign.endDate) < new Date()),
-    }));
+    .filter(b => b.campaign && !(b.campaign as any).deletedAt)
+    .map((b) => {
+      const campaign = b.campaign as { id: string; status: string; endDate: Date | null };
+      return {
+        bookmark: {
+          id: b.id,
+          userId: b.userId,
+          campaignId: b.campaignId,
+          createdAt: b.createdAt,
+        },
+        isExpired:
+          campaign.status === 'expired'
+          || (campaign.endDate !== null && new Date(campaign.endDate) < new Date()),
+      };
+    });
 }
 
 /**

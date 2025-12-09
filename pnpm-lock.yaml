@@ -144,6 +144,9 @@ importers:
       '@types/react':
         specifier: ^19.2.7
         version: 19.2.7
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.7)
       '@vitejs/plugin-react':
         specifier: ^5.1.1
         version: 5.1.1(vite@7.2.6(@types/node@24.10.1)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2))
@@ -242,7 +245,7 @@ importers:
         version: 4.0.14(@opentelemetry/api@1.9.0)(@types/node@24.10.1)(@vitest/browser-playwright@4.0.14)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
       vitest-browser-react:
         specifier: ^2.0.2
-        version: 2.0.2(@types/react@19.2.7)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vitest@4.0.14)
+        version: 2.0.2(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vitest@4.0.14)
       webpack-obfuscator:
         specifier: ^3.5.1
         version: 3.5.1(javascript-obfuscator@4.2.0)(webpack@5.103.0(esbuild@0.25.12))
@@ -3101,6 +3104,11 @@ packages:
 
   '@types/pg@8.15.6':
     resolution: {integrity: sha512-NoaMtzhxOrubeL/7UZuNTrejB4MPAJ0RpxZqXQf2qXuVlTPuG6Y8p4u9dKRaue4yjmC7ZhzVO2/Yyyn25znrPQ==}
+
+  '@types/react-dom@19.2.3':
+    resolution: {integrity: sha512-jp2L/eY6fn+KgVVQAOqYItbF0VY/YApe5Mz2F0aykSO8gx31bYCZyvSeYxCHKvzHG5eZjc+zyaS5BrBWya2+kQ==}
+    peerDependencies:
+      '@types/react': ^19.2.0
 
   '@types/react@19.2.7':
     resolution: {integrity: sha512-MWtvHrGZLFttgeEj28VXHxpmwYbor/ATPYbBfSFZEIRK0ecCFLl2Qo55z52Hss+UV9CRN7trSeq1zbgx7YDWWg==}
@@ -10051,7 +10059,7 @@ snapshots:
     dependencies:
       is-negated-glob: 1.0.0
 
-  '@hono/mcp@0.1.5(@modelcontextprotocol/sdk@1.23.0(zod@4.1.13))(hono@4.10.7)':
+  '@hono/mcp@0.1.5(@modelcontextprotocol/sdk@1.23.0(zod@3.25.76))(hono@4.10.7)':
     dependencies:
       '@modelcontextprotocol/sdk': 1.23.0(zod@3.25.76)
       hono: 4.10.7
@@ -11342,7 +11350,7 @@ snapshots:
 
   '@spotlightjs/spotlight@4.6.0':
     dependencies:
-      '@hono/mcp': 0.1.5(@modelcontextprotocol/sdk@1.23.0(zod@4.1.13))(hono@4.10.7)
+      '@hono/mcp': 0.1.5(@modelcontextprotocol/sdk@1.23.0(zod@3.25.76))(hono@4.10.7)
       '@hono/node-server': 1.19.6(hono@4.10.7)
       '@jridgewell/trace-mapping': 0.3.31
       '@modelcontextprotocol/sdk': 1.23.0(zod@3.25.76)
@@ -12035,6 +12043,10 @@ snapshots:
       '@types/node': 24.10.1
       pg-protocol: 1.10.3
       pg-types: 2.2.0
+
+  '@types/react-dom@19.2.3(@types/react@19.2.7)':
+    dependencies:
+      '@types/react': 19.2.7
 
   '@types/react@19.2.7':
     dependencies:
@@ -18264,13 +18276,14 @@ snapshots:
       terser: 5.44.1
       yaml: 2.8.2
 
-  vitest-browser-react@2.0.2(@types/react@19.2.7)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vitest@4.0.14):
+  vitest-browser-react@2.0.2(@types/react-dom@19.2.3(@types/react@19.2.7))(@types/react@19.2.7)(react-dom@19.2.0(react@19.2.0))(react@19.2.0)(vitest@4.0.14):
     dependencies:
       react: 19.2.0
       react-dom: 19.2.0(react@19.2.0)
       vitest: 4.0.14(@opentelemetry/api@1.9.0)(@types/node@24.10.1)(@vitest/browser-playwright@4.0.14)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2)
     optionalDependencies:
       '@types/react': 19.2.7
+      '@types/react-dom': 19.2.3(@types/react@19.2.7)
 
   vitest@4.0.14(@opentelemetry/api@1.9.0)(@types/node@24.10.1)(@vitest/browser-playwright@4.0.14)(jiti@2.6.1)(lightningcss@1.30.2)(terser@5.44.1)(yaml@2.8.2):
     dependencies:

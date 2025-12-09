@@ -53,12 +53,34 @@
     "nav_bookmarks": "收藏",
     "nav_profile": "我的",
     "nav_follow": "关注",
+    "nav_platforms": "平台",
+    "nav_tags": "标签",
+    "nav_about": "关于",
+    "nav_submit": "提交",
+    "expired": "已过期",
+    "days_left": "天后过期",
     "view_all": "查看全部",
     "no_campaigns": "暂无活动"
   },
   "About": {
     "meta_title": "关于 AI Free Pool",
-    "meta_description": "了解 AI Free Pool - 您的社区驱动平台，用于发现免费的 AI 额度和试用"
+    "meta_description": "了解 AI Free Pool - 您的社区驱动平台，用于发现免费的 AI 额度和试用",
+    "title": "关于 AI Free Pool",
+    "intro": "AI Free Pool 是一个社区驱动的平台，帮助您发现和追踪来自顶级 AI 平台的免费额度、试用和促销活动。我们的使命是通过汇集最新的免费额度活动，让 AI 工具更加触手可及。",
+    "what_we_offer_title": "我们提供什么",
+    "offer_1": "精选的 AI 免费额度活动列表",
+    "offer_2": "新促销活动的实时更新",
+    "offer_3": "社区贡献和验证",
+    "offer_4": "收藏和追踪您喜欢的活动",
+    "offer_5": "多语言支持",
+    "how_it_works_title": "如何使用",
+    "step_1": "浏览来自各种 AI 平台的活动",
+    "step_2": "按类别、平台或额度金额筛选",
+    "step_3": "收藏您感兴趣的活动",
+    "step_4": "提交您发现的新活动",
+    "step_5": "获取新机会的通知",
+    "community_title": "加入我们的社区",
+    "community_text": "关注我们的社交媒体，及时了解最新的 AI 免费额度活动，不错过任何免费试用新 AI 工具的机会。"
   },
   "SignIn": {
     "meta_title": "登录",
@@ -156,6 +178,7 @@
     "select_platform": "选择平台",
     "create_new_platform": "➕ 创建新平台",
     "platform_name_placeholder": "输入平台名称（例如：OpenAI、Anthropic）",
+    "new_platform_review_notice": "新平台将与活动一起提交审核，审核通过后才会创建",
     "field_title": "活动标题",
     "title_placeholder": "例如：OpenAI 新用户免费 $5 额度",
     "field_description": "描述",
@@ -408,6 +431,7 @@
     "sort_expiring_soon": "即将过期",
     "sort_highest_credit": "最高额度",
     "clearAll": "清除全部",
+    "apply": "应用筛选",
     "searchPlaceholder": "搜索活动、平台...",
     "noPlatforms": "暂无平台",
     "noCategories": "暂无分类",
@@ -465,11 +489,19 @@
     "confirmDelete": "确定要删除\"{name}\"吗？",
     "daysLeft": "{days} 天剩余",
     "expiredDaysAgo": "{days} 天前过期",
-    "noExpiry": "无过期时间"
+    "noExpiry": "无过期时间",
+    "login_required": "请先登录",
+    "bookmark_added": "已添加到收藏",
+    "bookmark_removed": "已取消收藏",
+    "bookmark_error": "操作失败，请重试"
   },
   "Menu": {
     "menu": "菜单",
+    "close": "关闭",
     "language": "语言"
+  },
+  "A11y": {
+    "skip_to_content": "跳转到主要内容"
   },
   "Sort": {
     "mostPopular": "最热门",

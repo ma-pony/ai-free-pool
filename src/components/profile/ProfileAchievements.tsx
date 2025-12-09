@@ -38,6 +38,7 @@ export function ProfileAchievements({ bookmarkCount }: ProfileAchievementsProps)
 
     // 更新 localStorage
     localStorage.setItem('lastBookmarkCount', bookmarkCount.toString());
+    return undefined;
   }, [bookmarkCount]);
 
   return (

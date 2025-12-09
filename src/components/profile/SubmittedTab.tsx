@@ -13,7 +13,13 @@ type SubmittedCampaign = {
     id: string;
     name: string;
     logo: string | null;
-  };
+  } | null;
+  pendingPlatform?: {
+    name: string;
+    slug: string;
+    website?: string;
+    description?: string;
+  } | null;
   translations: Array<{
     locale: string;
     title: string;
@@ -36,10 +42,6 @@ export function SubmittedTab({ userId, locale }: SubmittedTabProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchSubmittedCampaigns();
-  }, [userId]);
-
   const fetchSubmittedCampaigns = async () => {
     try {
       setLoading(true);
@@ -61,6 +63,11 @@ export function SubmittedTab({ userId, locale }: SubmittedTabProps) {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    void fetchSubmittedCampaigns();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
 
   const getCampaignTitle = (campaign: SubmittedCampaign) => {
     const translation = campaign.translations.find(t => t.locale === locale);
@@ -191,7 +198,7 @@ export function SubmittedTab({ userId, locale }: SubmittedTabProps) {
                     className="group"
                   >
                     <div className="flex items-center gap-3">
-                      {campaign.platform.logo && (
+                      {campaign.platform?.logo && (
                         <img
                           src={campaign.platform.logo}
                           alt={campaign.platform.name}
@@ -204,9 +211,14 @@ export function SubmittedTab({ userId, locale }: SubmittedTabProps) {
                             {title}
                           </h3>
                           {getStatusBadge(campaign.status)}
+                          {campaign.pendingPlatform && (
+                            <span className="rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
+                              🆕 New Platform
+                            </span>
+                          )}
                         </div>
                         <p className="mt-1 text-sm text-gray-500">
-                          {campaign.platform.name}
+                          {campaign.platform?.name || campaign.pendingPlatform?.name || 'Unknown Platform'}
                         </p>
                       </div>
                     </div>

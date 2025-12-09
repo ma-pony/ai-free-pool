@@ -2,9 +2,17 @@
 
 import type { Platform } from './Platform';
 
+// Pending platform info for campaigns with new platforms awaiting review
+export type PendingPlatform = {
+  name: string;
+  slug: string;
+  website?: string;
+  description?: string;
+};
+
 export type Campaign = {
   id: string;
-  platformId: string;
+  platformId: string | null; // Nullable when pending platform review
   platform?: Platform;
   slug: string;
   status: 'pending' | 'published' | 'rejected' | 'expired';
@@ -18,6 +26,7 @@ export type Campaign = {
   isFeatured: boolean;
   featuredUntil?: Date | null;
   submittedBy?: string | null;
+  pendingPlatform?: PendingPlatform | null; // New platform pending review
   createdAt: Date;
   updatedAt: Date;
   deletedAt?: Date | null;
@@ -55,7 +64,8 @@ export type Tag = {
 };
 
 export type CreateCampaignInput = {
-  platformId: string;
+  platformId?: string | null; // Optional when pendingPlatform is provided
+  pendingPlatform?: PendingPlatform | null; // New platform pending review
   slug: string;
   status?: 'pending' | 'published' | 'rejected' | 'expired';
   freeCredit?: string | null;

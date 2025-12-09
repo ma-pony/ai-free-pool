@@ -104,7 +104,12 @@ export function PendingCampaignList({
                       <p className="text-sm text-gray-600">
                         Platform:
                         {' '}
-                        {campaign.platform?.name || 'Unknown'}
+                        {campaign.platform?.name || campaign.pendingPlatform?.name || 'Unknown'}
+                        {campaign.pendingPlatform && (
+                          <span className="ml-2 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
+                            🆕 New Platform (Pending)
+                          </span>
+                        )}
                       </p>
                     </div>
                   </div>
@@ -134,6 +139,54 @@ export function PendingCampaignList({
             {/* Campaign Details (Expanded) */}
             {isExpanded && (
               <div className="space-y-6 p-6">
+                {/* Pending Platform Info */}
+                {campaign.pendingPlatform && (
+                  <div className="rounded-lg border-2 border-amber-200 bg-amber-50 p-4">
+                    <h4 className="mb-3 flex items-center font-medium text-amber-800">
+                      <span className="mr-2">🆕</span>
+                      New Platform (Pending Review)
+                    </h4>
+                    <div className="grid grid-cols-2 gap-4">
+                      <div>
+                        <p className="text-sm font-medium text-amber-700">Platform Name</p>
+                        <p className="mt-1 text-sm text-gray-900">
+                          {campaign.pendingPlatform.name}
+                        </p>
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-amber-700">Slug</p>
+                        <p className="mt-1 text-sm text-gray-900">
+                          {campaign.pendingPlatform.slug}
+                        </p>
+                      </div>
+                      {campaign.pendingPlatform.website && (
+                        <div className="col-span-2">
+                          <p className="text-sm font-medium text-amber-700">Website</p>
+                          <a
+                            href={campaign.pendingPlatform.website}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-1 text-sm text-blue-600 hover:underline"
+                          >
+                            {campaign.pendingPlatform.website}
+                          </a>
+                        </div>
+                      )}
+                      {campaign.pendingPlatform.description && (
+                        <div className="col-span-2">
+                          <p className="text-sm font-medium text-amber-700">Description</p>
+                          <p className="mt-1 text-sm text-gray-900">
+                            {campaign.pendingPlatform.description}
+                          </p>
+                        </div>
+                      )}
+                    </div>
+                    <p className="mt-3 text-xs text-amber-600">
+                      ⚠️ Approving this campaign will also create the new platform
+                    </p>
+                  </div>
+                )}
+
                 {/* Submission Info */}
                 <div className="grid grid-cols-2 gap-4 rounded-lg bg-gray-50 p-4">
                   <div>

@@ -126,9 +126,9 @@ export default function CampaignCard({
       {/* Card Content - Clickable area */}
       <Link href={`/campaigns/${campaign.slug}`} className="block p-4 sm:p-6" onClick={handleClick}>
         {/* Platform Info */}
-        {showPlatform && campaign.platform && (
+        {showPlatform && (campaign.platform || campaign.pendingPlatform) && (
           <div className="mb-3 flex items-center gap-2 sm:mb-4 sm:gap-3">
-            {campaign.platform.logo && (
+            {campaign.platform?.logo && (
               <div className="relative size-10 overflow-hidden rounded-lg bg-gray-100 shadow-sm sm:size-12">
                 <Image
                   src={campaign.platform.logo}
@@ -142,7 +142,7 @@ export default function CampaignCard({
             )}
             <div className="flex-1">
               <span className="text-xs font-semibold text-gray-700 sm:text-sm">
-                {campaign.platform.name}
+                {campaign.platform?.name || campaign.pendingPlatform?.name}
               </span>
             </div>
           </div>
@@ -197,7 +197,7 @@ export default function CampaignCard({
           )}
 
           {/* Top Condition Tag - 只显示最重要的1个 */}
-          {campaign.conditionTags && campaign.conditionTags.length > 0 && (
+          {campaign.conditionTags && campaign.conditionTags.length > 0 && campaign.conditionTags[0] && (
             <span className="inline-flex items-center rounded-lg bg-blue-100 px-3 py-1.5 text-sm font-medium text-blue-800">
               🏷️
               {' '}
@@ -210,6 +210,7 @@ export default function CampaignCard({
       {/* Quick Action Button - Go to Official Link (Outside Link) */}
       <div className="px-4 pb-4 sm:px-6 sm:pb-6">
         <button
+          type="button"
           onClick={handleExternalLinkClick}
           className="mt-3 flex w-full items-center justify-center gap-2 rounded-lg bg-linear-to-r from-blue-600 to-blue-700 px-4 py-2.5 text-sm font-semibold text-white shadow-md transition-all hover:from-blue-700 hover:to-blue-800 hover:shadow-lg active:scale-[0.98] sm:mt-4"
         >

@@ -181,7 +181,36 @@ export async function getCampaigns(filters?: CampaignListFilters): Promise<Campa
     offset: filters?.offset,
   });
 
-  return result as Campaign[];
+  // WORKAROUND: db.query doesn't include pendingPlatform field
+  // Manually fetch it for campaigns without platformId
+  const fixed = await Promise.all(
+    result.map(async (campaign) => {
+      if (!campaign.platformId) {
+        const [fullData] = await db
+          .select({ pendingPlatform: campaigns.pendingPlatform })
+          .from(campaigns)
+          .where(eq(campaigns.id, campaign.id))
+          .limit(1);
+
+        return {
+          ...campaign,
+          pendingPlatform: fullData?.pendingPlatform || null,
+        };
+      }
+      return {
+        ...campaign,
+        pendingPlatform: null,
+      };
+    }),
+  );
+
+  // Transform the result to match Campaign type
+  // The query returns conditionTags as junction records with nested tag objects
+  return fixed.map(campaign => ({
+    ...campaign,
+    conditionTags: campaign.conditionTags?.map(ct => ct.tag) || [],
+    tags: campaign.tags?.map(t => t.tag) || [],
+  })) as unknown as Campaign[];
 }
 
 /**
@@ -207,7 +236,16 @@ export async function getCampaignById(id: string): Promise<Campaign | null> {
     },
   });
 
-  return (result as Campaign) || null;
+  if (!result) {
+    return null;
+  }
+
+  // Transform the result to match Campaign type
+  return {
+    ...result,
+    conditionTags: result.conditionTags?.map(ct => ct.tag) || [],
+    tags: result.tags?.map(t => t.tag) || [],
+  } as unknown as Campaign;
 }
 
 /**
@@ -233,7 +271,16 @@ export async function getCampaignBySlug(slug: string): Promise<Campaign | null> 
     },
   });
 
-  return (result as Campaign) || null;
+  if (!result) {
+    return null;
+  }
+
+  // Transform the result to match Campaign type
+  return {
+    ...result,
+    conditionTags: result.conditionTags?.map(ct => ct.tag) || [],
+    tags: result.tags?.map(t => t.tag) || [],
+  } as unknown as Campaign;
 }
 
 /**
@@ -290,6 +337,10 @@ async function autoTranslateCampaign(
 /**
  * Create a new campaign
  * Validates: Requirements 2.1, 2.2, 4.3, 4.4, 8.4, 8.5
+ *
+ * Note: If pendingPlatform is provided instead of platformId, the campaign
+ * will be created without a platform association. The platform info is stored
+ * in pendingPlatform field and will be reviewed together with the campaign.
  */
 export async function createCampaign(input: CreateCampaignInput): Promise<Campaign> {
   // Check if slug already exists
@@ -303,15 +354,20 @@ export async function createCampaign(input: CreateCampaignInput): Promise<Campai
     throw new Error(`Campaign with slug "${input.slug}" already exists`);
   }
 
-  // Verify platform exists
-  const platform = await db
-    .select()
-    .from(platforms)
-    .where(eq(platforms.id, input.platformId))
-    .limit(1);
+  // Verify platform exists if platformId is provided
+  if (input.platformId) {
+    const platform = await db
+      .select()
+      .from(platforms)
+      .where(eq(platforms.id, input.platformId))
+      .limit(1);
 
-  if (platform.length === 0) {
-    throw new Error(`Platform with ID "${input.platformId}" not found`);
+    if (platform.length === 0) {
+      throw new Error(`Platform with ID "${input.platformId}" not found`);
+    }
+  } else if (!input.pendingPlatform) {
+    // Either platformId or pendingPlatform must be provided
+    throw new Error('Either platformId or pendingPlatform must be provided');
   }
 
   // Calculate difficulty level if condition tags are provided
@@ -321,23 +377,26 @@ export async function createCampaign(input: CreateCampaignInput): Promise<Campai
   }
 
   // Create campaign
+  const campaignData = {
+    platformId: input.platformId || null, // Nullable when pending platform review
+    slug: input.slug,
+    status: input.status || 'pending', // Default to pending (Requirement 4.3)
+    freeCredit: input.freeCredit || null,
+    startDate: input.startDate || null,
+    endDate: input.endDate || null,
+    officialLink: input.officialLink,
+    aiModels: input.aiModels || null,
+    usageLimits: input.usageLimits || null,
+    difficultyLevel: difficultyLevel || null,
+    isFeatured: input.isFeatured || false,
+    featuredUntil: input.featuredUntil || null,
+    submittedBy: input.submittedBy || null, // Record submitter (Requirement 4.4)
+    pendingPlatform: input.pendingPlatform || null, // Store pending platform for review
+  };
+
   const [campaign] = await db
     .insert(campaigns)
-    .values({
-      platformId: input.platformId,
-      slug: input.slug,
-      status: input.status || 'pending', // Default to pending (Requirement 4.3)
-      freeCredit: input.freeCredit || null,
-      startDate: input.startDate || null,
-      endDate: input.endDate || null,
-      officialLink: input.officialLink,
-      aiModels: input.aiModels || null,
-      usageLimits: input.usageLimits || null,
-      difficultyLevel: difficultyLevel || null,
-      isFeatured: input.isFeatured || false,
-      featuredUntil: input.featuredUntil || null,
-      submittedBy: input.submittedBy || null, // Record submitter (Requirement 4.4)
-    })
+    .values(campaignData)
     .returning();
 
   // Handle translations
@@ -580,8 +639,50 @@ export async function calculateDifficultyLevel(
 /**
  * Approve a pending campaign
  * Validates: Requirements 4.5
+ *
+ * If the campaign has a pendingPlatform, this will:
+ * 1. Create the new platform
+ * 2. Update the campaign with the new platformId
+ * 3. Clear the pendingPlatform field
+ * 4. Set status to published
  */
 export async function approveCampaign(id: string): Promise<Campaign | null> {
+  const existing = await getCampaignById(id);
+  if (!existing) {
+    return null;
+  }
+
+  // If there's a pending platform, create it first
+  if (existing.pendingPlatform && !existing.platformId) {
+    try {
+      const { createPlatform } = await import('./PlatformService');
+      const newPlatform = await createPlatform({
+        name: existing.pendingPlatform.name,
+        slug: existing.pendingPlatform.slug,
+        website: existing.pendingPlatform.website || undefined,
+        description: existing.pendingPlatform.description || undefined,
+        status: 'active',
+      });
+
+      // Update campaign with new platform ID and clear pending platform
+      await db
+        .update(campaigns)
+        .set({
+          platformId: newPlatform.id,
+          pendingPlatform: null,
+          status: 'published',
+          updatedAt: new Date(),
+        })
+        .where(eq(campaigns.id, id));
+
+      return await getCampaignById(id);
+    } catch (error) {
+      console.error('Failed to create pending platform:', error);
+      throw new Error(`Failed to create platform: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    }
+  }
+
+  // No pending platform, just update status
   return await updateCampaign(id, { status: 'published' });
 }
 

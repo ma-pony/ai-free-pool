@@ -86,7 +86,8 @@ export default function AchievementBadge({ bookmarkCount, onClose }: Achievement
         clearTimeout(closeTimer);
       };
     }
-  }, [bookmarkCount, onClose]);
+    return undefined;
+  }, [bookmarkCount, onClose, t]);
 
   if (!show || !currentAchievement) {
     return null;

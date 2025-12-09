@@ -100,12 +100,12 @@ export function generateCampaignMetadata(
     title,
     description,
     keywords,
-    image: campaign.platform?.logo,
+    image: campaign.platform?.logo ?? undefined,
     url: `/campaigns/${campaign.slug}`,
     type: 'article',
     publishedTime: campaign.createdAt?.toISOString(),
     modifiedTime: campaign.updatedAt?.toISOString(),
-    author: campaign.submittedBy,
+    author: campaign.submittedBy ?? undefined,
   });
 }
 
@@ -114,7 +114,7 @@ export function generateCampaignMetadata(
  */
 export function generatePlatformMetadata(
   platform: Platform,
-  locale: string,
+  _locale: string,
 ): Metadata {
   const title = `${platform.name} Free Credits & Campaigns`;
   const description = platform.description
@@ -133,7 +133,7 @@ export function generatePlatformMetadata(
     title,
     description,
     keywords,
-    image: platform.logo,
+    image: platform.logo ?? undefined,
     url: `/platforms/${platform.slug}`,
     type: 'website',
   });

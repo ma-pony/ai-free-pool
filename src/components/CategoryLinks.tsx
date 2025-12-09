@@ -1,11 +1,10 @@
 'use client';
 
-import { useLocale, useTranslations } from 'next-intl';
+import { useLocale } from 'next-intl';
 import Link from 'next/link';
 import { getHomeCategories } from '@/config/categories';
 
 export default function CategoryLinks() {
-  const t = useTranslations('Index');
   const locale = useLocale();
 
   // 获取首页展示的分类

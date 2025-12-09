@@ -293,57 +293,20 @@ export function FilterSidebar({
           <div className="max-h-64 space-y-3 overflow-y-auto">
             {availableConditions.length > 0 ? (
               <>
-                {/* 按类型分组显示 */}
-                {(() => {
-                  const requirements = availableConditions.filter(c => c.type === 'requirement');
-                  const benefits = availableConditions.filter(c => c.type === 'benefit');
-
-                  return (
-                    <>
-                      {requirements.length > 0 && (
-                        <div>
-                          <div className="mb-1 text-xs font-semibold text-gray-500 uppercase">
-                            {t('requirements') || '要求'}
-                          </div>
-                          <div className="space-y-1">
-                            {requirements.map(condition => (
-                              <label key={condition.id} className="flex cursor-pointer items-center rounded px-1 py-1 transition-colors hover:bg-gray-50">
-                                <input
-                                  type="checkbox"
-                                  checked={filters.conditionTags?.includes(condition.slug) || false}
-                                  onChange={() => handleConditionToggle(condition.slug)}
-                                  className="size-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                                />
-                                <span className="ml-2 text-sm text-gray-700">{condition.name}</span>
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {benefits.length > 0 && (
-                        <div>
-                          <div className="mb-1 text-xs font-semibold text-gray-500 uppercase">
-                            {t('benefits') || '优势'}
-                          </div>
-                          <div className="space-y-1">
-                            {benefits.map(condition => (
-                              <label key={condition.id} className="flex cursor-pointer items-center rounded px-1 py-1 transition-colors hover:bg-gray-50">
-                                <input
-                                  type="checkbox"
-                                  checked={filters.conditionTags?.includes(condition.slug) || false}
-                                  onChange={() => handleConditionToggle(condition.slug)}
-                                  className="size-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                                />
-                                <span className="ml-2 text-sm text-gray-700">{condition.name}</span>
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </>
-                  );
-                })()}
+                {/* 显示所有条件 */}
+                <div className="space-y-1">
+                  {availableConditions.map(condition => (
+                    <label key={condition.id} className="flex cursor-pointer items-center rounded px-1 py-1 transition-colors hover:bg-gray-50">
+                      <input
+                        type="checkbox"
+                        checked={filters.conditionTags?.includes(condition.slug) || false}
+                        onChange={() => handleConditionToggle(condition.slug)}
+                        className="size-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                      />
+                      <span className="ml-2 text-sm text-gray-700">{condition.name}</span>
+                    </label>
+                  ))}
+                </div>
               </>
             ) : (
               <p className="text-sm text-gray-500 italic">{t('noConditions')}</p>
@@ -364,17 +327,17 @@ export function FilterSidebar({
         {expandedSections.sort && (
           <div className="space-y-2">
             {[
-              { value: 'latest', labelKey: 'sort_latest' },
-              { value: 'popular', labelKey: 'sort_popular' },
-              { value: 'expiring_soon', labelKey: 'sort_expiring_soon' },
-              { value: 'highest_credit', labelKey: 'sort_highest_credit' },
+              { value: 'latest', labelKey: 'sort_latest' as const },
+              { value: 'popular', labelKey: 'sort_popular' as const },
+              { value: 'expiring_soon', labelKey: 'sort_expiring_soon' as const },
+              { value: 'highest_credit', labelKey: 'sort_highest_credit' as const },
             ].map(option => (
               <label key={option.value} className="flex cursor-pointer items-center">
                 <input
                   type="radio"
                   name="sortBy"
                   checked={filters.sortBy === option.value || (!filters.sortBy && option.value === 'latest')}
-                  onChange={() => handleSortChange(option.value as any)}
+                  onChange={() => handleSortChange(option.value as 'latest' | 'popular' | 'expiring_soon' | 'highest_credit')}
                   className="size-4 border-gray-300 text-blue-600 focus:ring-blue-500"
                 />
                 <span className="ml-2 text-sm text-gray-700">{t(option.labelKey)}</span>

@@ -7,7 +7,7 @@ type ExpiredCampaignBannerProps = {
   campaignTitle: string;
 };
 
-export default function ExpiredCampaignBanner({ campaignTitle }: ExpiredCampaignBannerProps) {
+export default function ExpiredCampaignBanner(_props: ExpiredCampaignBannerProps) {
   const t = useTranslations('CampaignDetail');
   const { openModal } = useSocialMediaPromptContext();
 

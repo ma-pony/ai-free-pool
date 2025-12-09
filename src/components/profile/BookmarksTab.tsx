@@ -19,7 +19,13 @@ type BookmarkWithCampaign = {
       id: string;
       name: string;
       logo: string | null;
-    };
+    } | null;
+    pendingPlatform?: {
+      name: string;
+      slug: string;
+      website?: string;
+      description?: string;
+    } | null;
     translations: Array<{
       locale: string;
       title: string;
@@ -177,7 +183,7 @@ export function BookmarksTab({ userId, locale }: BookmarksTabProps) {
                     className="group"
                   >
                     <div className="flex items-center gap-3">
-                      {campaign.platform.logo && (
+                      {campaign.platform?.logo && (
                         <img
                           src={campaign.platform.logo}
                           alt={campaign.platform.name}
@@ -189,7 +195,7 @@ export function BookmarksTab({ userId, locale }: BookmarksTabProps) {
                           {title}
                         </h3>
                         <p className="mt-1 text-sm text-gray-500">
-                          {campaign.platform.name}
+                          {campaign.platform?.name || campaign.pendingPlatform?.name || 'Unknown Platform'}
                         </p>
                       </div>
                     </div>

@@ -18,7 +18,7 @@ export function VerificationNeededList({
   onVerify,
   onMarkExpired,
 }: VerificationNeededListProps) {
-  const getReactionStats = (campaign: Campaign) => {
+  const getReactionStats = (_campaign: Campaign) => {
     // TODO: Get actual reaction stats from campaign data
     // For now, return placeholder data
     return {

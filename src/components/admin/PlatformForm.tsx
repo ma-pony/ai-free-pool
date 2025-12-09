@@ -22,7 +22,7 @@ export function PlatformForm({ platform, onSubmit, onCancel }: PlatformFormProps
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CreatePlatformInput>({
+  } = useForm({
     resolver: zodResolver(CreatePlatformSchema),
     defaultValues: platform
       ? {
@@ -39,10 +39,10 @@ export function PlatformForm({ platform, onSubmit, onCancel }: PlatformFormProps
         },
   });
 
-  const onSubmitForm = async (data: CreatePlatformInput) => {
+  const onSubmitForm = async (data: unknown) => {
     setIsSubmitting(true);
     try {
-      await onSubmit(data);
+      await onSubmit(data as CreatePlatformInput);
     } finally {
       setIsSubmitting(false);
     }

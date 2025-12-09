@@ -63,5 +63,5 @@ export function isValidSlug(slug: string): boolean {
  */
 export function extractSlugFromPath(path: string): string | null {
   const parts = path.split('/').filter(Boolean);
-  return parts.length > 0 ? parts[parts.length - 1] : null;
+  return parts.length > 0 ? (parts[parts.length - 1] ?? null) : null;
 }

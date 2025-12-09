@@ -11,8 +11,10 @@ import { trackCampaignSubmission } from '@/libs/Analytics';
 
 // Form validation schema
 const campaignSubmissionSchema = z.object({
-  platformId: z.string().min(1, 'Platform is required'),
+  platformId: z.string().optional(), // Optional when creating new platform
   platformName: z.string().optional(), // For creating new platform
+  platformWebsite: z.string().url('Must be a valid URL').optional().or(z.literal('')), // Platform website
+  platformDescription: z.string().optional(), // Platform description
   title: z.string().min(1, 'Title is required').max(500),
   description: z.string().optional(),
   freeCredit: z.string().optional(),
@@ -22,7 +24,13 @@ const campaignSubmissionSchema = z.object({
   aiModels: z.string().optional(), // Comma-separated
   usageLimits: z.string().optional(),
   conditionTagIds: z.array(z.string()).optional(),
-});
+}).refine(
+  data => data.platformId || data.platformName,
+  {
+    message: 'Please select a platform or create a new one',
+    path: ['platformId'],
+  },
+);
 
 type FormData = z.infer<typeof campaignSubmissionSchema>;
 
@@ -106,6 +114,8 @@ export function CampaignSubmissionForm() {
       const payload = {
         platformId: isNewPlatform ? undefined : data.platformId,
         platformName: isNewPlatform ? data.platformName : undefined,
+        platformWebsite: isNewPlatform ? data.platformWebsite : undefined,
+        platformDescription: isNewPlatform ? data.platformDescription : undefined,
         slug,
         status: 'pending',
         freeCredit: data.freeCredit || undefined,
@@ -212,15 +222,67 @@ export function CampaignSubmissionForm() {
           )}
         </div>
 
-        {/* New Platform Name */}
+        {/* New Platform Fields */}
         {isNewPlatform && (
-          <div className="mt-2">
-            <input
-              type="text"
-              {...register('platformName')}
-              placeholder={t('platform_name_placeholder')}
-              className="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
-            />
+          <div className="mt-3 space-y-3 rounded-lg border-2 border-amber-200 bg-amber-50 p-4">
+            <div className="mb-2 flex items-center gap-2">
+              <span className="text-sm font-semibold text-amber-800">🆕 新平台信息</span>
+              <span className="text-xs text-amber-600">（将与活动一起审核）</span>
+            </div>
+
+            {/* Platform Name */}
+            <div>
+              <label htmlFor="platformName" className="block text-sm font-medium text-gray-700">
+                平台名称
+                {' '}
+                <span className="text-red-500">*</span>
+              </label>
+              <input
+                type="text"
+                id="platformName"
+                {...register('platformName')}
+                placeholder={t('platform_name_placeholder')}
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+            </div>
+
+            {/* Platform Website */}
+            <div>
+              <label htmlFor="platformWebsite" className="block text-sm font-medium text-gray-700">
+                平台官网
+              </label>
+              <input
+                type="url"
+                id="platformWebsite"
+                {...register('platformWebsite')}
+                placeholder="https://example.com"
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+              <p className="mt-1 text-xs text-gray-500">平台的官方网站地址</p>
+            </div>
+
+            {/* Platform Description */}
+            <div>
+              <label htmlFor="platformDescription" className="block text-sm font-medium text-gray-700">
+                平台简介
+              </label>
+              <textarea
+                id="platformDescription"
+                {...register('platformDescription')}
+                rows={2}
+                placeholder="简要描述这个平台的主要功能和特点..."
+                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+              />
+              <p className="mt-1 text-xs text-gray-500">帮助审核人员了解这个平台</p>
+            </div>
+
+            <div className="rounded-md bg-amber-100 p-3">
+              <p className="text-xs text-amber-800">
+                ⚠️
+                {' '}
+                {t('new_platform_review_notice')}
+              </p>
+            </div>
           </div>
         )}
       </div>

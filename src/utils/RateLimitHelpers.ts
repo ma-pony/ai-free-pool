@@ -121,7 +121,8 @@ export function getClientIdentifier(request: NextRequest, userId?: string): stri
 
   // Get IP address
   const forwarded = request.headers.get('x-forwarded-for');
-  const ip = forwarded ? forwarded.split(',')[0].trim() : request.headers.get('x-real-ip') || 'unknown';
+  const forwardedIp = forwarded?.split(',')[0]?.trim();
+  const ip = forwardedIp || request.headers.get('x-real-ip') || 'unknown';
 
   return `ip:${ip}`;
 }

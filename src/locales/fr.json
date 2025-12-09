@@ -57,7 +57,23 @@
   },
   "About": {
     "meta_title": "À propos d'AI Free Pool",
-    "meta_description": "Découvrez AI Free Pool - votre plateforme communautaire pour découvrir des crédits et essais gratuits d'IA"
+    "meta_description": "Découvrez AI Free Pool - votre plateforme communautaire pour découvrir des crédits et essais gratuits d'IA",
+    "title": "À propos d'AI Free Pool",
+    "intro": "AI Free Pool est une plateforme communautaire qui vous aide à découvrir et suivre les crédits gratuits, essais et promotions des meilleures plateformes d'IA. Notre mission est de rendre les outils d'IA plus accessibles en regroupant les dernières campagnes de crédits gratuits en un seul endroit.",
+    "what_we_offer_title": "Ce que nous offrons",
+    "offer_1": "Liste sélectionnée de campagnes de crédits gratuits d'IA",
+    "offer_2": "Mises à jour en temps réel sur les nouvelles promotions",
+    "offer_3": "Contributions et vérifications de la communauté",
+    "offer_4": "Marquez et suivez vos campagnes préférées",
+    "offer_5": "Support multilingue",
+    "how_it_works_title": "Comment ça marche",
+    "step_1": "Parcourez les campagnes de diverses plateformes d'IA",
+    "step_2": "Filtrez par catégorie, plateforme ou montant de crédit",
+    "step_3": "Marquez les campagnes qui vous intéressent",
+    "step_4": "Soumettez les nouvelles campagnes que vous découvrez",
+    "step_5": "Soyez notifié des nouvelles opportunités",
+    "community_title": "Rejoignez notre communauté",
+    "community_text": "Suivez-nous sur les réseaux sociaux pour rester informé des dernières campagnes de crédits gratuits d'IA et ne manquez jamais une occasion d'essayer de nouveaux outils d'IA gratuitement."
   },
   "SignIn": {
     "meta_title": "Se connecter",
@@ -155,6 +171,7 @@
     "select_platform": "Sélectionner une plateforme",
     "create_new_platform": "➕ Créer une nouvelle plateforme",
     "platform_name_placeholder": "Entrez le nom de la plateforme (ex : OpenAI, Anthropic)",
+    "new_platform_review_notice": "La nouvelle plateforme sera soumise à examen avec la campagne",
     "field_title": "Titre de la campagne",
     "title_placeholder": "ex : OpenAI Crédit gratuit de 5$ pour les nouveaux utilisateurs",
     "field_description": "Description",

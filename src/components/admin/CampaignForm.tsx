@@ -35,7 +35,7 @@ export function CampaignForm({ campaign, onSubmit, onCancel }: CampaignFormProps
     watch,
     setValue,
     formState: { errors },
-  } = useForm<CreateCampaignInput>({
+  } = useForm({
     resolver: zodResolver(CreateCampaignSchema),
     defaultValues: campaign
       ? {
@@ -108,12 +108,12 @@ export function CampaignForm({ campaign, onSubmit, onCancel }: CampaignFormProps
     fetchData();
   }, [campaign?.platformId, setValue]);
 
-  const onSubmitForm = async (data: CreateCampaignInput) => {
+  const onSubmitForm = async (data: unknown) => {
     setIsSubmitting(true);
     try {
       // Add selected condition tags and tags
       const submitData = {
-        ...data,
+        ...(data as CreateCampaignInput),
         conditionTagIds: selectedConditionTags,
         tagIds: selectedTags,
       };

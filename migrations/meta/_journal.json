@@ -36,6 +36,13 @@
       "when": 1765119027440,
       "tag": "0004_mixed_storm",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1765200507363,
+      "tag": "0005_chunky_zombie",
+      "breakpoints": true
     }
   ]
 }

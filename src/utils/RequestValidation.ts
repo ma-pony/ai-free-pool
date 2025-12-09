@@ -306,7 +306,10 @@ export function getRealIP(request: NextRequest): string {
   // Try various headers in order of preference
   const forwarded = request.headers.get('x-forwarded-for');
   if (forwarded && forwarded.length > 0) {
-    return forwarded.split(',')[0].trim();
+    const firstIp = forwarded.split(',')[0];
+    if (firstIp) {
+      return firstIp.trim();
+    }
   }
 
   const realIP = request.headers.get('x-real-ip');

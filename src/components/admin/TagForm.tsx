@@ -35,7 +35,8 @@ export function TagForm({ tag, onSubmit, onCancel }: TagFormProps) {
         },
   });
 
-  const name = watch('name');
+  // Watch name for auto-generating slug
+  watch('name');
 
   // Auto-generate slug from name
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -20,7 +20,6 @@ export default function FeaturedCampaignList() {
   const [error, setError] = useState<string | null>(null);
   const [showSetFeaturedModal, setShowSetFeaturedModal] = useState(false);
   const [selectedCampaignId, setSelectedCampaignId] = useState<string | null>(null);
-  const [selectedCampaign, setSelectedCampaign] = useState<Campaign | null>(null);
   const [featuredUntil, setFeaturedUntil] = useState('');
 
   useEffect(() => {
@@ -101,7 +100,6 @@ export default function FeaturedCampaignList() {
 
       setShowSetFeaturedModal(false);
       setSelectedCampaignId(null);
-      setSelectedCampaign(null);
       setFeaturedUntil('');
       await fetchFeaturedCampaigns();
     } catch (err) {
@@ -253,9 +251,8 @@ export default function FeaturedCampaignList() {
                 </label>
                 <CampaignSelector
                   value={selectedCampaignId}
-                  onChange={(campaignId, campaign) => {
+                  onChange={(campaignId) => {
                     setSelectedCampaignId(campaignId);
-                    setSelectedCampaign(campaign);
                   }}
                   placeholder={t('search_and_select_campaign')}
                 />
@@ -285,7 +282,6 @@ export default function FeaturedCampaignList() {
                   onClick={() => {
                     setShowSetFeaturedModal(false);
                     setSelectedCampaignId(null);
-                    setSelectedCampaign(null);
                     setFeaturedUntil('');
                   }}
                   className="flex-1 rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-700 hover:bg-gray-50"

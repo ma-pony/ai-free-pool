@@ -34,7 +34,7 @@ async function testCategoryFilter() {
 
     // Test 3: Filter by first category (if available)
     if (categoryTags.length > 0) {
-      const firstCategory = categoryTags[0];
+      const firstCategory = categoryTags[0]!;
       console.log(`📋 Test 3: Filtering by category "${firstCategory.name}"...`);
       const filteredCampaigns = await getCampaigns({
         status: 'published',
@@ -71,7 +71,7 @@ async function testCategoryFilter() {
 
     // Test 5: Combine category filter with difficulty
     if (categoryTags.length > 0) {
-      const firstCategory = categoryTags[0];
+      const firstCategory = categoryTags[0]!;
       console.log(`📋 Test 5: Combining category + difficulty filters...`);
       console.log(`   Category: ${firstCategory.name}, Difficulty: easy`);
       const combinedFilterCampaigns = await getCampaigns({
@@ -87,7 +87,7 @@ async function testCategoryFilter() {
 
     // Test 6: Test sorting with filters
     if (categoryTags.length > 0) {
-      const firstCategory = categoryTags[0];
+      const firstCategory = categoryTags[0]!;
       console.log(`📋 Test 6: Testing sort options with filters...`);
 
       const sortOptions = ['latest', 'popular', 'expiring_soon', 'highest_credit'] as const;

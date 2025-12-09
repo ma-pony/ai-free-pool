@@ -11,7 +11,6 @@ type CampaignSelectorProps = {
 };
 
 export default function CampaignSelector({
-  value,
   onChange,
   placeholder,
 }: CampaignSelectorProps) {

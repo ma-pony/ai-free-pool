@@ -2,9 +2,10 @@ import { SignOutButton } from '@clerk/nextjs';
 import { auth } from '@clerk/nextjs/server';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
-import { HamburgerMenu } from '@/components/HamburgerMenu';
+import { SkipLink } from '@/components/a11y';
 import { LocaleSwitcher } from '@/components/LocaleSwitcher';
-import MobileBottomNav from '@/components/MobileBottomNav';
+import { HamburgerMenuV2 } from '@/components/navigation/HamburgerMenuV2';
+import { MobileBottomNavV2 } from '@/components/navigation/MobileBottomNavV2';
 import ScrollToTop from '@/components/ScrollToTop';
 import { BaseTemplate } from '@/templates/BaseTemplate';
 
@@ -19,14 +20,16 @@ export default async function Layout(props: {
     namespace: 'RootLayout',
   });
 
-  // Check if user is signed in
   const { userId } = await auth();
 
   return (
     <>
-      {/* Mobile Hamburger Menu */}
+      {/* 可访问性：跳转链接 */}
+      <SkipLink />
+
+      {/* 移动端汉堡菜单 */}
       <div className="fixed top-4 left-4 z-50 md:hidden">
-        <HamburgerMenu />
+        <HamburgerMenuV2 />
       </div>
 
       <BaseTemplate
@@ -61,7 +64,6 @@ export default async function Layout(props: {
         rightNav={(
           <>
             {userId ? (
-              // Show user menu when signed in
               <>
                 <li>
                   <Link
@@ -80,7 +82,6 @@ export default async function Layout(props: {
                 </li>
               </>
             ) : (
-              // Show sign in/up when not signed in
               <>
                 <li>
                   <Link
@@ -100,20 +101,22 @@ export default async function Layout(props: {
                 </li>
               </>
             )}
-
             <li>
               <LocaleSwitcher />
             </li>
           </>
         )}
       >
-        <div className="py-5 text-xl [&_p]:my-6">{props.children}</div>
+        {/* 主内容区域 - 添加 id 用于 SkipLink */}
+        <main id="main-content" className="py-5 text-xl [&_p]:my-6">
+          {props.children}
+        </main>
       </BaseTemplate>
 
-      {/* Mobile Bottom Navigation */}
-      <MobileBottomNav />
+      {/* 移动端底部导航 */}
+      <MobileBottomNavV2 />
 
-      {/* Scroll to Top Button */}
+      {/* 回到顶部按钮 */}
       <ScrollToTop />
     </>
   );
