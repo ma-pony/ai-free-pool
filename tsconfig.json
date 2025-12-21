@@ -82,7 +82,9 @@
     "node_modules",
     "scripts",
     "**/*.spec.ts",
-    "**/*.e2e.ts"
+    "**/*.e2e.ts",
+    "vitest.config.mts",
+    "vitest.browser.setup.ts"
   ],
   "include": [
     "next-env.d.ts",
