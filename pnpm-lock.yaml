@@ -232,7 +232,7 @@ importers:
         specifier: ^25.0.2
         version: 25.0.2(typescript@5.9.3)
       storybook:
-        specifier: ^10.0.8
+        specifier: ^10.1.10
         version: 10.1.10(@testing-library/dom@10.4.1)(prettier@3.7.4)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
       tailwindcss:
         specifier: ^4.1.17
