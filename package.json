@@ -112,7 +112,7 @@
     "postcss-load-config": "^6.0.1",
     "rimraf": "^6.1.2",
     "semantic-release": "^25.0.2",
-    "storybook": "^10.0.8",
+    "storybook": "^10.1.10",
     "tailwindcss": "^4.1.17",
     "typescript": "^5.9.3",
     "vite-tsconfig-paths": "^5.1.4",
