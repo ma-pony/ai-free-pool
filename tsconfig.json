@@ -84,7 +84,8 @@
     "**/*.spec.ts",
     "**/*.e2e.ts",
     "vitest.config.mts",
-    "vitest.browser.setup.ts"
+    "vitest.browser.setup.ts",
+    ".storybook/**/*"
   ],
   "include": [
     "next-env.d.ts",
