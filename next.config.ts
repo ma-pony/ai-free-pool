@@ -1,5 +1,4 @@
 import type { NextConfig } from 'next';
-import type { Configuration } from 'webpack';
 import withBundleAnalyzer from '@next/bundle-analyzer';
 // import { withSentryConfig } from '@sentry/nextjs'; // Sentry disabled
 import createNextIntlPlugin from 'next-intl/plugin';
@@ -74,7 +73,7 @@ const baseConfig: NextConfig = {
    *
    * To enable obfuscation, set ENABLE_CODE_OBFUSCATION=true in your environment.
    */
-  webpack: (config: Configuration, { isServer, dev }) => {
+  webpack: (config: any, { isServer, dev }) => {
     // Only apply obfuscation in production client-side builds
     if (!isServer && !dev && process.env.ENABLE_CODE_OBFUSCATION === 'true' && WebpackObfuscator) {
       try {
@@ -123,7 +122,7 @@ const baseConfig: NextConfig = {
             ],
           ),
         );
-      } catch (error) {
+      } catch {
         console.warn('Code obfuscation is enabled but webpack-obfuscator is not available. Skipping obfuscation.');
         console.warn('To enable obfuscation, install: npm install --save-dev webpack-obfuscator javascript-obfuscator');
       }
