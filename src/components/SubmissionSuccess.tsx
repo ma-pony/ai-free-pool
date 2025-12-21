@@ -34,7 +34,7 @@ export default function SubmissionSuccess({
             const particles = ['🎉', '🎊', '✨', '🌟', '💫'];
             return (
               <div
-                key={i}
+                key={`confetti-${i}`}
                 className="animate-float absolute"
                 style={{
                   left: `${(i * 5) % 100}%`,
@@ -117,12 +117,12 @@ export default function SubmissionSuccess({
           </Link>
         </div>
 
-        {/* 社交分享提示 */}
-        <div className="mt-6 text-center">
+        {/* 社交分享提示 - DISABLED */}
+        {/* <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
             💡 提示：关注我们的社交媒体，第一时间了解审核结果
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import SocialMediaIcons from '@/components/SocialMediaIcons';
+// import SocialMediaIcons from '@/components/SocialMediaIcons';
 import { AppConfig } from '@/utils/AppConfig';
 
 export const BaseTemplate = (props: {
@@ -43,8 +43,8 @@ export const BaseTemplate = (props: {
 
         <footer className="mb-16 border-t border-gray-200 py-8 md:mb-0">
           <div className="mx-auto max-w-5xl">
-            {/* Social Media Section */}
-            <div className="mb-6">
+            {/* Social Media Section - DISABLED */}
+            {/* <div className="mb-6">
               <h3 className="mb-4 text-center text-base font-semibold text-gray-900">
                 Follow Us
               </h3>
@@ -54,7 +54,7 @@ export const BaseTemplate = (props: {
               <p className="mt-4 text-center text-sm text-gray-600">
                 Stay updated with the latest AI free credit campaigns
               </p>
-            </div>
+            </div> */}
 
             {/* Copyright */}
             <div className="text-center text-sm text-gray-500">

@@ -118,7 +118,7 @@
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^4.0.4",
     "vitest-browser-react": "^2.0.2",
-    "webpack-obfuscator": "^3.5.1"
+    "webpack-obfuscator": "^3.6.0"
   },
   "release": {
     "branches": [

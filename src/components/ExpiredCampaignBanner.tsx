@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useSocialMediaPromptContext } from './SocialMediaPromptProvider';
+// import { useSocialMediaPromptContext } from './SocialMediaPromptProvider';
 
 type ExpiredCampaignBannerProps = {
   campaignTitle: string;
@@ -9,11 +9,11 @@ type ExpiredCampaignBannerProps = {
 
 export default function ExpiredCampaignBanner(_props: ExpiredCampaignBannerProps) {
   const t = useTranslations('CampaignDetail');
-  const { openModal } = useSocialMediaPromptContext();
+  // const { openModal } = useSocialMediaPromptContext();
 
-  const handleFollowClick = () => {
-    openModal('expired');
-  };
+  // const handleFollowClick = () => {
+  //   openModal('expired');
+  // };
 
   return (
     <div className="mb-6 rounded-lg border-2 border-orange-200 bg-orange-50 p-6">
@@ -27,10 +27,11 @@ export default function ExpiredCampaignBanner(_props: ExpiredCampaignBannerProps
           <h3 className="mb-2 text-lg font-semibold text-orange-900">
             {t('expired_banner_title')}
           </h3>
-          <p className="mb-4 text-sm text-orange-800">
+          <p className="text-sm text-orange-800">
             {t('expired_banner_description')}
           </p>
-          <button
+          {/* Social Media CTA - DISABLED */}
+          {/* <button
             onClick={handleFollowClick}
             className="inline-flex items-center gap-2 rounded-lg bg-orange-600 px-4 py-2 font-medium text-white transition-colors hover:bg-orange-700"
             type="button"
@@ -39,7 +40,7 @@ export default function ExpiredCampaignBanner(_props: ExpiredCampaignBannerProps
               <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
             </svg>
             {t('expired_banner_cta')}
-          </button>
+          </button> */}
         </div>
       </div>
     </div>

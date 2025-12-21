@@ -4,14 +4,13 @@ import { useAuth } from '@clerk/nextjs';
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { useSocialMediaPromptContext } from './SocialMediaPromptProvider';
 
 export default function MobileBottomNav() {
   const pathname = usePathname();
   const t = useTranslations('Index');
   const tRoot = useTranslations('RootLayout');
   const { isSignedIn } = useAuth();
-  const { openModal } = useSocialMediaPromptContext();
+  // const { openModal } = useSocialMediaPromptContext();
 
   const isActive = (path: string) => {
     if (path === '/') {
@@ -124,8 +123,8 @@ export default function MobileBottomNav() {
             );
           })}
 
-          {/* Social Media Button */}
-          <button
+          {/* Social Media Button - DISABLED */}
+          {/* <button
             onClick={() => openModal()}
             className="flex h-full min-w-[60px] flex-1 flex-col items-center justify-center text-gray-600 transition-all hover:text-primary-500 active:scale-95 active:text-primary-600"
             type="button"
@@ -135,7 +134,7 @@ export default function MobileBottomNav() {
               <path strokeLinecap="round" strokeLinejoin="round" d="M17 8h2a2 2 0 012 2v6a2 2 0 01-2 2h-2v4l-4-4H9a1.994 1.994 0 01-1.414-.586m0 0L11 14h4a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2v4l.586-.586z" />
             </svg>
             <span className="mt-1 max-w-[60px] truncate text-xs font-medium">{t('nav_follow')}</span>
-          </button>
+          </button> */}
         </div>
       </nav>
     </>
