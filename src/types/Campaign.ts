@@ -114,6 +114,8 @@ export type CampaignListFilters = {
   // Pagination
   limit?: number;
   offset?: number;
+  // Exclude participated campaigns for a specific user
+  excludeParticipatedByUserId?: string;
 };
 
 export type CreateConditionTagInput = {

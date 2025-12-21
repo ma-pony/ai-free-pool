@@ -1,7 +1,7 @@
 'use client';
 
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 type Stats = {
   totalCampaigns: number;
@@ -17,12 +17,9 @@ export default function Statistics() {
     communityContributions: 0,
   });
   const [loading, setLoading] = useState(true);
+  const fetchedRef = useRef(false);
 
-  useEffect(() => {
-    fetchStats();
-  }, []);
-
-  const fetchStats = async () => {
+  const fetchStats = useCallback(async () => {
     try {
       // For now, we'll use placeholder data
       // In production, this would fetch from an API endpoint
@@ -36,7 +33,15 @@ export default function Statistics() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (fetchedRef.current) {
+      return;
+    }
+    fetchedRef.current = true;
+    fetchStats();
+  }, [fetchStats]);
 
   if (loading) {
     return (

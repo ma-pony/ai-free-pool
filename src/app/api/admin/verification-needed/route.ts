@@ -1,7 +1,6 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { getCampaignById } from '@/services/CampaignService';
-import { getCampaignsNeedingVerification } from '@/services/ReactionService';
+import { getCampaignsNeedingVerificationWithDetails } from '@/services/ReactionService';
 
 /**
  * GET /api/admin/verification-needed
@@ -18,19 +17,8 @@ export async function GET(_request: NextRequest) {
       return adminCheck;
     }
 
-    // Get campaigns needing verification
-    const needsVerification = await getCampaignsNeedingVerification();
-
-    // Fetch full campaign details
-    const campaignsWithDetails = await Promise.all(
-      needsVerification.map(async (item) => {
-        const campaign = await getCampaignById(item.campaignId);
-        return {
-          campaign,
-          stats: item.stats,
-        };
-      }),
-    );
+    // Get campaigns needing verification with full details (optimized batch query)
+    const campaignsWithDetails = await getCampaignsNeedingVerificationWithDetails();
 
     return NextResponse.json({
       success: true,

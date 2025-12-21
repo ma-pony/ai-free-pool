@@ -59,8 +59,13 @@ export async function PUT(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    // Check authentication
-    const { userId } = await auth();
+    // Parallel: auth + params + body parsing
+    const [{ userId }, { id }, json] = await Promise.all([
+      auth(),
+      params,
+      request.json(),
+    ]);
+
     if (!userId) {
       return NextResponse.json(
         {
@@ -74,8 +79,6 @@ export async function PUT(
     // TODO: Add admin role check when role system is implemented
     // For now, any authenticated user can update campaigns
 
-    const { id } = await params;
-    const json = await request.json();
     const parse = UpdateCampaignSchema.safeParse(json);
 
     if (!parse.success) {
@@ -141,8 +144,9 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    // Check authentication
-    const { userId } = await auth();
+    // Parallel: auth + params
+    const [{ userId }, { id }] = await Promise.all([auth(), params]);
+
     if (!userId) {
       return NextResponse.json(
         {
@@ -156,7 +160,6 @@ export async function DELETE(
     // TODO: Add admin role check when role system is implemented
     // For now, any authenticated user can delete campaigns
 
-    const { id } = await params;
     const success = await deleteCampaign(id);
 
     if (!success) {

@@ -3,7 +3,7 @@
 import type { Platform } from '@/types/Platform';
 import type { CreatePlatformInput } from '@/validations/PlatformValidation';
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { PlatformForm } from '@/components/admin/PlatformForm';
 import { PlatformList } from '@/components/admin/PlatformList';
 
@@ -14,13 +14,9 @@ export default function AdminPlatformsPage() {
   const [showForm, setShowForm] = useState(false);
   const [editingPlatform, setEditingPlatform] = useState<Platform | undefined>();
   const [error, setError] = useState<string | null>(null);
+  const fetchedRef = useRef(false);
 
-  // Fetch platforms
-  useEffect(() => {
-    fetchPlatforms();
-  }, []);
-
-  const fetchPlatforms = async () => {
+  const fetchPlatforms = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch('/api/platforms?status=all');
@@ -37,7 +33,16 @@ export default function AdminPlatformsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  // Fetch platforms
+  useEffect(() => {
+    if (fetchedRef.current) {
+      return;
+    }
+    fetchedRef.current = true;
+    fetchPlatforms();
+  }, [fetchPlatforms]);
 
   const handleCreate = () => {
     setEditingPlatform(undefined);

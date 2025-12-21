@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import CampaignCard from '@/components/CampaignCard';
+import { CampaignListWrapper } from '@/components/CampaignListWrapper';
 import { getCampaigns } from '@/services/CampaignService';
 import { getTagBySlug } from '@/services/TagService';
 
@@ -119,13 +120,15 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
       <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
         {campaigns.length > 0
           ? (
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {campaigns.map(campaign => (
-                  <Suspense key={campaign.id} fallback={<CampaignCardSkeleton />}>
-                    <CampaignCard campaign={campaign} locale={locale} showPlatform />
-                  </Suspense>
-                ))}
-              </div>
+              <CampaignListWrapper campaignIds={campaigns.map(c => c.id)}>
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {campaigns.map(campaign => (
+                    <Suspense key={campaign.id} fallback={<CampaignCardSkeleton />}>
+                      <CampaignCard campaign={campaign} locale={locale} showPlatform />
+                    </Suspense>
+                  ))}
+                </div>
+              </CampaignListWrapper>
             )
           : (
               <div className="rounded-lg bg-white p-12 text-center shadow">

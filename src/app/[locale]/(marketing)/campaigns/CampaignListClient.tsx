@@ -8,6 +8,7 @@ import { useCallback, useMemo, useState } from 'react';
 import { CampaignCardCompact } from '@/components/campaign';
 import CampaignCardSkeleton from '@/components/CampaignCardSkeleton';
 import { CampaignFilters } from '@/components/CampaignFilters';
+import { CampaignListWrapper } from '@/components/CampaignListWrapper';
 import { FilterEmptyState, SearchEmptyState } from '@/components/common';
 import { FilterBottomSheet, FilterTriggerButton } from '@/components/filter';
 import QuickFilters from '@/components/QuickFilters';
@@ -299,16 +300,18 @@ export function CampaignListClient({
           {(!loading || page > 1) && (
             <>
               {campaigns.length > 0 ? (
-                <div className="space-y-4">
-                  {campaigns.map(campaign => (
-                    <CampaignCardCompact
-                      key={campaign.id}
-                      campaign={campaign}
-                      locale={locale}
-                      showPlatform={true}
-                    />
-                  ))}
-                </div>
+                <CampaignListWrapper campaignIds={campaigns.map(c => c.id)}>
+                  <div className="space-y-4">
+                    {campaigns.map(campaign => (
+                      <CampaignCardCompact
+                        key={campaign.id}
+                        campaign={campaign}
+                        locale={locale}
+                        showPlatform={true}
+                      />
+                    ))}
+                  </div>
+                </CampaignListWrapper>
               ) : (
                 // 统一空状态
                 hasSearchQuery ? (

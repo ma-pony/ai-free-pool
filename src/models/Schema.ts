@@ -318,6 +318,29 @@ export const bookmarks = pgTable(
   }),
 );
 
+// User participated campaigns table - Track campaigns user has participated in
+export const userParticipatedCampaigns = pgTable(
+  'user_participated_campaigns',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: varchar('user_id', { length: 255 }).notNull(), // Clerk user ID
+    campaignId: uuid('campaign_id')
+      .notNull()
+      .references(() => campaigns.id, { onDelete: 'cascade' }),
+    participatedAt: timestamp('participated_at').notNull().defaultNow(),
+    notes: text('notes'), // Optional notes about participation
+    createdAt: timestamp('created_at').notNull().defaultNow(),
+  },
+  table => ({
+    uniqueUserCampaign: unique('user_participated_campaigns_user_campaign_unique').on(
+      table.userId,
+      table.campaignId,
+    ),
+    userIdIdx: index('user_participated_campaigns_user_id_idx').on(table.userId),
+    campaignIdIdx: index('user_participated_campaigns_campaign_id_idx').on(table.campaignId),
+  }),
+);
+
 // Campaign emoji reactions table - Emoji reactions on campaigns
 export const campaignEmojiReactions = pgTable(
   'campaign_emoji_reactions',
@@ -360,6 +383,7 @@ export const campaignsRelations = relations(campaigns, ({ one, many }) => ({
   reactions: many(reactions),
   comments: many(comments),
   bookmarks: many(bookmarks),
+  participations: many(userParticipatedCampaigns),
 }));
 
 export const campaignTranslationsRelations = relations(campaignTranslations, ({ one }) => ({
@@ -429,13 +453,6 @@ export const commentReactionsRelations = relations(commentReactions, ({ one }) =
   }),
 }));
 
-export const bookmarksRelations = relations(bookmarks, ({ one }) => ({
-  campaign: one(campaigns, {
-    fields: [bookmarks.campaignId],
-    references: [campaigns.id],
-  }),
-}));
-
 // Featured campaign impressions table - Track when featured campaigns are viewed
 export const featuredImpressions = pgTable(
   'featured_impressions',
@@ -475,6 +492,13 @@ export const featuredClicks = pgTable(
     createdAtIdx: index('featured_clicks_created_at_idx').on(table.createdAt),
   }),
 );
+
+export const userParticipatedCampaignsRelations = relations(userParticipatedCampaigns, ({ one }) => ({
+  campaign: one(campaigns, {
+    fields: [userParticipatedCampaigns.campaignId],
+    references: [campaigns.id],
+  }),
+}));
 
 export const featuredImpressionsRelations = relations(featuredImpressions, ({ one }) => ({
   campaign: one(campaigns, {

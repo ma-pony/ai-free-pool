@@ -5,7 +5,7 @@ import type { Platform } from '@/types/Platform';
 import type { CreateCampaignInput } from '@/validations/CampaignValidation';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { useFieldArray, useForm } from 'react-hook-form';
 import { CreateCampaignSchema } from '@/validations/CampaignValidation';
 
@@ -27,6 +27,7 @@ export function CampaignForm({ campaign, onSubmit, onCancel }: CampaignFormProps
   const [selectedTags, setSelectedTags] = useState<string[]>(
     campaign?.tags?.map(t => t.id) || [],
   );
+  const fetchedRef = useRef(false);
 
   const {
     register,
@@ -72,41 +73,45 @@ export function CampaignForm({ campaign, onSubmit, onCancel }: CampaignFormProps
   });
 
   // Fetch platforms, condition tags, and tags
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const [platformsRes, conditionTagsRes, tagsRes] = await Promise.all([
-          fetch('/api/platforms?status=all'),
-          fetch('/api/condition-tags'),
-          fetch('/api/tags'),
-        ]);
+  const fetchData = useCallback(async () => {
+    try {
+      const [platformsRes, conditionTagsRes, tagsRes] = await Promise.all([
+        fetch('/api/platforms?status=all'),
+        fetch('/api/condition-tags'),
+        fetch('/api/tags'),
+      ]);
 
-        const platformsData = await platformsRes.json();
-        const conditionTagsData = await conditionTagsRes.json();
-        const tagsData = await tagsRes.json();
+      const platformsData = await platformsRes.json();
+      const conditionTagsData = await conditionTagsRes.json();
+      const tagsData = await tagsRes.json();
 
-        if (platformsData.success) {
-          setPlatforms(platformsData.data);
-          // Re-set platformId after platforms are loaded (for edit mode)
-          if (campaign?.platformId) {
-            setValue('platformId', campaign.platformId);
-          }
+      if (platformsData.success) {
+        setPlatforms(platformsData.data);
+        // Re-set platformId after platforms are loaded (for edit mode)
+        if (campaign?.platformId) {
+          setValue('platformId', campaign.platformId);
         }
-
-        if (conditionTagsData.success) {
-          setConditionTags(conditionTagsData.data);
-        }
-
-        if (tagsData.success) {
-          setTags(tagsData.data);
-        }
-      } catch (err) {
-        console.error('Failed to fetch data:', err);
       }
-    };
 
-    fetchData();
+      if (conditionTagsData.success) {
+        setConditionTags(conditionTagsData.data);
+      }
+
+      if (tagsData.success) {
+        setTags(tagsData.data);
+      }
+    } catch (err) {
+      console.error('Failed to fetch data:', err);
+    }
   }, [campaign?.platformId, setValue]);
+
+  useEffect(() => {
+    if (fetchedRef.current) {
+      return;
+    }
+    fetchedRef.current = true;
+    fetchData();
+  }, [fetchData]);
 
   const onSubmitForm = async (data: unknown) => {
     setIsSubmitting(true);

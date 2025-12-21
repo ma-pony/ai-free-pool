@@ -37,6 +37,7 @@ export type UpdateCommentInput = {
 
 /**
  * Enrich comments with user data from Clerk
+ * Optimized: Uses batch user lookup instead of N+1 individual queries
  */
 async function enrichCommentsWithUserData(commentList: Comment[]): Promise<Comment[]> {
   // Get unique user IDs
@@ -51,34 +52,46 @@ async function enrichCommentsWithUserData(commentList: Comment[]): Promise<Comme
   };
   collectUserIds(commentList);
 
-  // Fetch user data from Clerk
+  // Fetch user data from Clerk using batch API
   const userMap = new Map<string, CommentUser>();
   try {
     const client = await clerkClient();
-    const userPromises = Array.from(userIds).map(async (userId) => {
-      try {
-        const user = await client.users.getUser(userId);
-        return {
-          id: userId,
-          username: user.username || user.fullName || user.firstName || 'Anonymous',
-          imageUrl: user.imageUrl,
-        };
-      } catch (error) {
-        // If user not found, return default
-        return {
+    const userIdArray = Array.from(userIds);
+
+    // Use Clerk's batch user list API instead of individual getUser calls
+    const { data: users } = await client.users.getUserList({
+      userId: userIdArray,
+      limit: userIdArray.length,
+    });
+
+    for (const user of users) {
+      userMap.set(user.id, {
+        id: user.id,
+        username: user.username || user.fullName || user.firstName || 'Anonymous',
+        imageUrl: user.imageUrl,
+      });
+    }
+
+    // Set default for any users not found
+    for (const userId of userIdArray) {
+      if (!userMap.has(userId)) {
+        userMap.set(userId, {
           id: userId,
           username: 'Anonymous',
           imageUrl: undefined,
-        };
+        });
       }
-    });
-
-    const users = await Promise.all(userPromises);
-    for (const user of users) {
-      userMap.set(user.id, user);
     }
   } catch (error) {
     console.error('Error fetching user data:', error);
+    // Set defaults for all users on error
+    for (const userId of userIds) {
+      userMap.set(userId, {
+        id: userId,
+        username: 'Anonymous',
+        imageUrl: undefined,
+      });
+    }
   }
 
   // Attach user data to comments

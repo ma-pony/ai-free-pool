@@ -4,10 +4,11 @@ import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { BookmarksTab } from './BookmarksTab';
 import { OverviewTab } from './OverviewTab';
+import { ParticipationsTab } from './ParticipationsTab';
 import { SettingsTab } from './SettingsTab';
 import { SubmittedTab } from './SubmittedTab';
 
-type TabType = 'overview' | 'bookmarks' | 'submitted' | 'settings';
+type TabType = 'overview' | 'bookmarks' | 'participations' | 'submitted' | 'settings';
 
 type ProfileTabsProps = {
   userId: string;
@@ -21,6 +22,7 @@ export function ProfileTabs({ userId, locale }: ProfileTabsProps) {
   const tabs: { id: TabType; label: string }[] = [
     { id: 'overview', label: t('tab_overview') },
     { id: 'bookmarks', label: t('tab_bookmarks') },
+    { id: 'participations', label: t('tab_participations') },
     { id: 'submitted', label: t('tab_submitted') },
     { id: 'settings', label: t('tab_settings') },
   ];
@@ -54,6 +56,7 @@ export function ProfileTabs({ userId, locale }: ProfileTabsProps) {
       <div className="p-6">
         {activeTab === 'overview' && <OverviewTab userId={userId} />}
         {activeTab === 'bookmarks' && <BookmarksTab userId={userId} locale={locale} />}
+        {activeTab === 'participations' && <ParticipationsTab userId={userId} locale={locale} />}
         {activeTab === 'submitted' && <SubmittedTab userId={userId} locale={locale} />}
         {activeTab === 'settings' && <SettingsTab />}
       </div>

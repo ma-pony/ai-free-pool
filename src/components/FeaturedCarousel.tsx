@@ -3,7 +3,7 @@
 import type { Campaign } from '@/types/Campaign';
 import { useTranslations } from 'next-intl';
 import Image from 'next/image';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { trackFeaturedClick, trackFeaturedImpression } from '@/libs/Analytics';
 
 type FeaturedCarouselProps = {
@@ -17,15 +17,38 @@ export default function FeaturedCarousel({ locale }: FeaturedCarouselProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [sessionId, setSessionId] = useState<string>('');
+  const fetchedRef = useRef(false);
 
   // Generate sessionId only on client side to avoid hydration mismatch
   useEffect(() => {
     setSessionId(`session-${Date.now()}-${Math.random()}`);
   }, []);
 
-  useEffect(() => {
-    fetchFeaturedCampaigns();
+  const fetchFeaturedCampaigns = useCallback(async () => {
+    try {
+      setLoading(true);
+      const response = await fetch('/api/campaigns?isFeatured=true&limit=5');
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch featured campaigns');
+      }
+
+      const data = await response.json();
+      setCampaigns(data.data || []);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'An error occurred');
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useEffect(() => {
+    if (fetchedRef.current) {
+      return;
+    }
+    fetchedRef.current = true;
+    fetchFeaturedCampaigns();
+  }, [fetchFeaturedCampaigns]);
 
   // Auto-rotate carousel every 5 seconds
   useEffect(() => {
@@ -48,24 +71,6 @@ export default function FeaturedCarousel({ locale }: FeaturedCarouselProps) {
       trackFeaturedImpression(campaigns[currentIndex].id, currentIndex);
     }
   }, [currentIndex, campaigns]);
-
-  const fetchFeaturedCampaigns = async () => {
-    try {
-      setLoading(true);
-      const response = await fetch('/api/campaigns?isFeatured=true&limit=5');
-
-      if (!response.ok) {
-        throw new Error('Failed to fetch featured campaigns');
-      }
-
-      const data = await response.json();
-      setCampaigns(data.data || []);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'An error occurred');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const trackImpression = async (campaignId: string) => {
     try {

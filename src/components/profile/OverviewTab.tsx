@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 type RecentActivity = {
   id: string;
@@ -21,16 +21,15 @@ type OverviewTabProps = {
  * Overview tab component showing user statistics and recent activity
  * Validates: Requirements 17.1, 17.2, 17.7
  */
-export function OverviewTab({ userId }: OverviewTabProps) {
+export function OverviewTab({ userId: _userId }: OverviewTabProps) {
   const t = useTranslations('Profile');
   const [activities, setActivities] = useState<RecentActivity[]>([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchRecentActivity();
-  }, [userId]);
+  // Use ref to prevent duplicate fetches in Strict Mode
+  const fetchedRef = useRef(false);
 
-  const fetchRecentActivity = async () => {
+  const fetchRecentActivity = useCallback(async () => {
     try {
       setLoading(true);
       // TODO: Implement API endpoint for recent activity
@@ -41,7 +40,17 @@ export function OverviewTab({ userId }: OverviewTabProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    // Prevent duplicate fetch in Strict Mode
+    if (fetchedRef.current) {
+      return;
+    }
+    fetchedRef.current = true;
+
+    fetchRecentActivity();
+  }, [fetchRecentActivity]);
 
   const getActivityIcon = (type: RecentActivity['type']) => {
     switch (type) {

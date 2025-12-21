@@ -15,35 +15,24 @@ export type Statistics = {
 
 /**
  * 获取网站统计数据
+ * Optimized: Parallel queries instead of sequential
  */
 export async function getStatistics(): Promise<Statistics> {
   try {
-    // 获取已发布的活动数量
-    const campaignsResult = await db
-      .select({ count: count() })
-      .from(campaigns)
-      .where(eq(campaigns.status, 'published'));
-
-    const totalCampaigns = campaignsResult[0]?.count || 0;
-
-    // 获取活跃平台数量
-    const platformsResult = await db
-      .select({ count: count() })
-      .from(platforms);
-
-    const activePlatforms = platformsResult[0]?.count || 0;
-
-    // 获取社区贡献数量（反馈数）
-    const reactionsResult = await db
-      .select({ count: count() })
-      .from(reactions);
-
-    const communityContributions = reactionsResult[0]?.count || 0;
+    // 并行执行所有查询
+    const [campaignsResult, platformsResult, reactionsResult] = await Promise.all([
+      // 获取已发布的活动数量
+      db.select({ count: count() }).from(campaigns).where(eq(campaigns.status, 'published')),
+      // 获取活跃平台数量
+      db.select({ count: count() }).from(platforms),
+      // 获取社区贡献数量（反馈数）
+      db.select({ count: count() }).from(reactions),
+    ]);
 
     return {
-      totalCampaigns,
-      activePlatforms,
-      communityContributions,
+      totalCampaigns: campaignsResult[0]?.count || 0,
+      activePlatforms: platformsResult[0]?.count || 0,
+      communityContributions: reactionsResult[0]?.count || 0,
     };
   } catch (error) {
     console.error('Failed to fetch statistics:', error);

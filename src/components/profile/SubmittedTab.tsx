@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 type SubmittedCampaign = {
   id: string;
@@ -42,7 +42,10 @@ export function SubmittedTab({ userId, locale }: SubmittedTabProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const fetchSubmittedCampaigns = async () => {
+  // Use ref to prevent duplicate fetches in Strict Mode
+  const fetchedRef = useRef(false);
+
+  const fetchSubmittedCampaigns = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -62,12 +65,17 @@ export function SubmittedTab({ userId, locale }: SubmittedTabProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, [userId]);
 
   useEffect(() => {
-    void fetchSubmittedCampaigns();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId]);
+    // Prevent duplicate fetch in Strict Mode
+    if (fetchedRef.current) {
+      return;
+    }
+    fetchedRef.current = true;
+
+    fetchSubmittedCampaigns();
+  }, [fetchSubmittedCampaigns]);
 
   const getCampaignTitle = (campaign: SubmittedCampaign) => {
     const translation = campaign.translations.find(t => t.locale === locale);

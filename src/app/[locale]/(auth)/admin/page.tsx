@@ -1,7 +1,7 @@
 'use client';
 
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 type DashboardStats = {
   totalCampaigns: number;
@@ -28,12 +28,9 @@ export default function AdminDashboardPage() {
   const [stats, setStats] = useState<DashboardStats | null>(null);
   const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
   const [loading, setLoading] = useState(true);
+  const fetchedRef = useRef(false);
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
-
-  const fetchDashboardData = async () => {
+  const fetchDashboardData = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch('/api/admin/stats');
@@ -48,7 +45,15 @@ export default function AdminDashboardPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (fetchedRef.current) {
+      return;
+    }
+    fetchedRef.current = true;
+    fetchDashboardData();
+  }, [fetchDashboardData]);
 
   if (loading) {
     return (

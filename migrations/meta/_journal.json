@@ -43,6 +43,13 @@
       "when": 1765200507363,
       "tag": "0005_chunky_zombie",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1765456836896,
+      "tag": "0006_narrow_wildside",
+      "breakpoints": true
     }
   ]
 }

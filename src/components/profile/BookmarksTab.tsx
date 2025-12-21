@@ -2,7 +2,7 @@
 
 import { useTranslations } from 'next-intl';
 import Link from 'next/link';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 type BookmarkWithCampaign = {
   id: string;
@@ -43,17 +43,16 @@ type BookmarksTabProps = {
  * Bookmarks tab component
  * Validates: Requirements 7.5, 7.6
  */
-export function BookmarksTab({ userId, locale }: BookmarksTabProps) {
+export function BookmarksTab({ userId: _userId, locale }: BookmarksTabProps) {
   const t = useTranslations('Profile');
   const [bookmarks, setBookmarks] = useState<BookmarkWithCampaign[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    fetchBookmarks();
-  }, [userId]);
+  // Use ref to prevent duplicate fetches in Strict Mode
+  const fetchedRef = useRef(false);
 
-  const fetchBookmarks = async () => {
+  const fetchBookmarks = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -72,7 +71,17 @@ export function BookmarksTab({ userId, locale }: BookmarksTabProps) {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    // Prevent duplicate fetch in Strict Mode
+    if (fetchedRef.current) {
+      return;
+    }
+    fetchedRef.current = true;
+
+    fetchBookmarks();
+  }, [fetchBookmarks]);
 
   const handleRemoveBookmark = async (campaignId: string) => {
     try {

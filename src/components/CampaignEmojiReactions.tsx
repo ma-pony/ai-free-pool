@@ -3,6 +3,7 @@
 import { useAuth } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useEmojiReactionOptional } from './EmojiReactionProvider';
 
 export type CampaignEmojiStats = {
   emoji: string;
@@ -21,6 +22,7 @@ const CAMPAIGN_EMOJIS = ['👍', '❤️', '🔥', '🎉', '😍', '🚀'];
 
 /**
  * Emoji reaction buttons for campaigns
+ * Uses EmojiReactionProvider context for batch loading (avoids N+1)
  * Similar to comment reactions but for campaign cards
  */
 export function CampaignEmojiReactions({
@@ -30,17 +32,32 @@ export function CampaignEmojiReactions({
 }: CampaignEmojiReactionsProps) {
   const { isSignedIn } = useAuth();
   const router = useRouter();
+  const emojiContext = useEmojiReactionOptional();
 
-  const [reactions, setReactions] = useState<CampaignEmojiStats[]>(initialReactions);
+  // Get reactions from context if available
+  const contextReactions = emojiContext?.getEmojiReactions(campaignId);
+
+  const [reactions, setReactions] = useState<CampaignEmojiStats[]>(
+    initialReactions.length > 0 ? initialReactions : (contextReactions || []),
+  );
   const [isLoading, setIsLoading] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
-  // Fetch reactions if not provided
+  // Update reactions when context data changes
   useEffect(() => {
-    if (initialReactions.length === 0) {
-      fetchReactions();
+    if (contextReactions && initialReactions.length === 0) {
+      setReactions(contextReactions);
     }
-  }, [campaignId]);
+  }, [contextReactions, initialReactions.length]);
+
+  // Fallback: fetch individually only if no context and no initial reactions
+  useEffect(() => {
+    if (initialReactions.length > 0 || contextReactions || emojiContext) {
+      return;
+    }
+
+    fetchReactions();
+  }, [campaignId, initialReactions.length, contextReactions, emojiContext]);
 
   const fetchReactions = async () => {
     try {
@@ -55,6 +72,10 @@ export function CampaignEmojiReactions({
 
       if (data.success) {
         setReactions(data.data || []);
+        // Update context if available
+        if (emojiContext) {
+          emojiContext.updateEmojiReactions(campaignId, data.data || []);
+        }
       }
     } catch (error) {
       console.error('Error fetching reactions:', error);

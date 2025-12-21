@@ -17,18 +17,14 @@ export async function GET(
   { params }: { params: Promise<{ campaignId: string }> },
 ) {
   try {
-    const { campaignId } = await params;
+    // Parallel: auth + params
+    const [{ userId }, { campaignId }] = await Promise.all([auth(), params]);
 
-    // Get reaction statistics (Requirement 5.7)
-    const stats = await getReactionStats(campaignId);
-
-    // Get user's reaction if authenticated (Requirement 5.4)
-    const { userId } = await auth();
-    let userReaction = null;
-
-    if (userId) {
-      userReaction = await getUserReaction(campaignId, userId);
-    }
+    // Parallel: stats + user reaction (if authenticated)
+    const [stats, userReaction] = await Promise.all([
+      getReactionStats(campaignId),
+      userId ? getUserReaction(campaignId, userId) : Promise.resolve(null),
+    ]);
 
     return NextResponse.json({
       success: true,
@@ -59,8 +55,8 @@ export async function DELETE(
   { params }: { params: Promise<{ campaignId: string }> },
 ) {
   try {
-    // Check authentication
-    const { userId } = await auth();
+    // Parallel: auth + params
+    const [{ userId }, { campaignId }] = await Promise.all([auth(), params]);
 
     if (!userId) {
       return NextResponse.json(
@@ -68,8 +64,6 @@ export async function DELETE(
         { status: 401 },
       );
     }
-
-    const { campaignId } = await params;
 
     // Remove reaction (Requirement 5.5)
     const removed = await removeReaction(campaignId, userId);

@@ -15,8 +15,11 @@ import {
  */
 export async function POST(request: NextRequest) {
   try {
-    // Check authentication (Requirement 5.2)
-    const { userId } = await auth();
+    // Parallel: auth + body parsing
+    const [{ userId }, body] = await Promise.all([
+      auth(),
+      request.json(),
+    ]);
 
     if (!userId) {
       return NextResponse.json(
@@ -25,7 +28,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const body = await request.json();
     const { campaignId, type } = body;
 
     // Validate input

@@ -2,7 +2,7 @@
 
 import type { Campaign } from '@/types/Campaign';
 import type { CreateCampaignInput } from '@/validations/CampaignValidation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { CampaignForm } from '@/components/admin/CampaignForm';
 import { CampaignList } from '@/components/admin/CampaignList';
 
@@ -12,13 +12,9 @@ export default function AdminCampaignsPage() {
   const [showForm, setShowForm] = useState(false);
   const [editingCampaign, setEditingCampaign] = useState<Campaign | undefined>();
   const [error, setError] = useState<string | null>(null);
+  const fetchedRef = useRef(false);
 
-  // Fetch campaigns
-  useEffect(() => {
-    fetchCampaigns();
-  }, []);
-
-  const fetchCampaigns = async () => {
+  const fetchCampaigns = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch('/api/campaigns?includeDeleted=false');
@@ -35,7 +31,16 @@ export default function AdminCampaignsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  // Fetch campaigns
+  useEffect(() => {
+    if (fetchedRef.current) {
+      return;
+    }
+    fetchedRef.current = true;
+    fetchCampaigns();
+  }, [fetchCampaigns]);
 
   const handleCreate = () => {
     setEditingCampaign(undefined);

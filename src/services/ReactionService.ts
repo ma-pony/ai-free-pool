@@ -1,6 +1,10 @@
+import type { Campaign } from '@/types/Campaign';
 import { and, eq, isNull, sql } from 'drizzle-orm';
 import { db } from '@/libs/DB';
-import { campaigns, reactions } from '@/models/Schema';
+import {
+  campaigns,
+  reactions,
+} from '@/models/Schema';
 
 export type ReactionType = 'still_works' | 'expired' | 'info_incorrect';
 
@@ -203,8 +207,63 @@ export async function checkVerificationNeeded(campaignId: string): Promise<boole
 }
 
 /**
+ * Get reaction stats for multiple campaigns in a single query
+ * Optimized batch version to avoid N+1 queries
+ */
+export async function getBatchReactionStats(campaignIds: string[]): Promise<Map<string, ReactionStats>> {
+  if (campaignIds.length === 0) {
+    return new Map();
+  }
+
+  const result = await db
+    .select({
+      campaignId: reactions.campaignId,
+      type: reactions.type,
+      count: sql<number>`count(*)::int`,
+    })
+    .from(reactions)
+    .where(sql`${reactions.campaignId} = ANY(${campaignIds})`)
+    .groupBy(reactions.campaignId, reactions.type);
+
+  // Build stats map
+  const statsMap = new Map<string, ReactionStats>();
+
+  // Initialize all campaigns with empty stats
+  for (const campaignId of campaignIds) {
+    statsMap.set(campaignId, {
+      stillWorks: 0,
+      expired: 0,
+      infoIncorrect: 0,
+      total: 0,
+    });
+  }
+
+  // Populate stats from query results
+  for (const row of result) {
+    const stats = statsMap.get(row.campaignId)!;
+    const count = Number(row.count);
+    stats.total += count;
+
+    switch (row.type) {
+      case 'still_works':
+        stats.stillWorks = count;
+        break;
+      case 'expired':
+        stats.expired = count;
+        break;
+      case 'info_incorrect':
+        stats.infoIncorrect = count;
+        break;
+    }
+  }
+
+  return statsMap;
+}
+
+/**
  * Get campaigns that need verification
  * Validates: Requirements 5.9
+ * Optimized: Uses batch query instead of N+1 individual queries
  */
 export async function getCampaignsNeedingVerification(): Promise<
   Array<{
@@ -224,21 +283,18 @@ export async function getCampaignsNeedingVerification(): Promise<
       ),
     );
 
-  const result: Array<{
-    campaignId: string;
-    stats: ReactionStats;
-  }> = [];
-
-  // Get stats for each campaign
-  for (const campaign of campaignsNeedingVerification) {
-    const stats = await getReactionStats(campaign.id);
-    result.push({
-      campaignId: campaign.id,
-      stats,
-    });
+  if (campaignsNeedingVerification.length === 0) {
+    return [];
   }
 
-  return result;
+  // Get stats for all campaigns in a single batch query
+  const campaignIds = campaignsNeedingVerification.map(c => c.id);
+  const statsMap = await getBatchReactionStats(campaignIds);
+
+  return campaignIds.map(campaignId => ({
+    campaignId,
+    stats: statsMap.get(campaignId)!,
+  }));
 }
 
 /**
@@ -288,4 +344,62 @@ export async function getVerificationNeededCount(): Promise<number> {
     );
 
   return result.length > 0 ? Number(result[0]!.count) : 0;
+}
+
+/**
+ * Get campaigns needing verification with full campaign details
+ * Optimized: Uses batch queries instead of N+1 individual queries
+ * Validates: Requirements 5.9
+ */
+export async function getCampaignsNeedingVerificationWithDetails(): Promise<
+  Array<{
+    campaign: Campaign;
+    stats: ReactionStats;
+  }>
+> {
+  // Get all campaigns marked as needing verification with full details
+  const campaignsNeedingVerification = await db.query.campaigns.findMany({
+    where: and(
+      eq(campaigns.needsVerification, true),
+      eq(campaigns.status, 'published'),
+      isNull(campaigns.deletedAt),
+    ),
+    with: {
+      platform: true,
+      translations: true,
+      conditionTags: {
+        with: {
+          tag: true,
+        },
+      },
+      tags: {
+        with: {
+          tag: true,
+        },
+      },
+    },
+  });
+
+  if (campaignsNeedingVerification.length === 0) {
+    return [];
+  }
+
+  // Get stats for all campaigns in a single batch query
+  const campaignIds = campaignsNeedingVerification.map(c => c.id);
+  const statsMap = await getBatchReactionStats(campaignIds);
+
+  // Transform and return results
+  return campaignsNeedingVerification.map((campaign) => {
+    const transformedCampaign = {
+      ...campaign,
+      pendingPlatform: null,
+      conditionTags: campaign.conditionTags?.map(ct => ct.tag) || [],
+      tags: campaign.tags?.map(t => t.tag) || [],
+    } as unknown as Campaign;
+
+    return {
+      campaign: transformedCampaign,
+      stats: statsMap.get(campaign.id)!,
+    };
+  });
 }

@@ -8,14 +8,20 @@ import { campaignEmojiReactions, campaigns } from '@/models/Schema';
 /**
  * POST /api/campaigns/[id]/emoji-reactions/[emoji]
  * Add an emoji reaction to a campaign
+ * Optimized: parallel queries + upsert pattern
  */
 export async function POST(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string; emoji: string }> },
 ) {
   try {
-    // Check authentication
-    const { userId } = await auth();
+    // Check authentication and get params in parallel
+    const [authResult, resolvedParams] = await Promise.all([
+      auth(),
+      params,
+    ]);
+
+    const { userId } = authResult;
 
     if (!userId) {
       return NextResponse.json(
@@ -24,17 +30,28 @@ export async function POST(
       );
     }
 
-    const { id: campaignId, emoji } = await params;
-
-    // Decode emoji from URL
+    const { id: campaignId, emoji } = resolvedParams;
     const decodedEmoji = decodeURIComponent(emoji);
 
-    // Verify campaign exists
-    const campaign = await db
-      .select()
-      .from(campaigns)
-      .where(and(eq(campaigns.id, campaignId), isNull(campaigns.deletedAt)))
-      .limit(1);
+    // Run campaign check and existing reaction check in parallel
+    const [campaign, existing] = await Promise.all([
+      db
+        .select({ id: campaigns.id })
+        .from(campaigns)
+        .where(and(eq(campaigns.id, campaignId), isNull(campaigns.deletedAt)))
+        .limit(1),
+      db
+        .select({ id: campaignEmojiReactions.id })
+        .from(campaignEmojiReactions)
+        .where(
+          and(
+            eq(campaignEmojiReactions.campaignId, campaignId),
+            eq(campaignEmojiReactions.userId, userId),
+            eq(campaignEmojiReactions.emoji, decodedEmoji),
+          ),
+        )
+        .limit(1),
+    ]);
 
     if (campaign.length === 0) {
       return NextResponse.json(
@@ -42,19 +59,6 @@ export async function POST(
         { status: 404 },
       );
     }
-
-    // Check if user already reacted with this emoji
-    const existing = await db
-      .select()
-      .from(campaignEmojiReactions)
-      .where(
-        and(
-          eq(campaignEmojiReactions.campaignId, campaignId),
-          eq(campaignEmojiReactions.userId, userId),
-          eq(campaignEmojiReactions.emoji, decodedEmoji),
-        ),
-      )
-      .limit(1);
 
     if (existing.length > 0) {
       return NextResponse.json(
@@ -89,14 +93,20 @@ export async function POST(
 /**
  * DELETE /api/campaigns/[id]/emoji-reactions/[emoji]
  * Remove an emoji reaction from a campaign
+ * Optimized: parallel auth + params resolution
  */
 export async function DELETE(
   _request: NextRequest,
   { params }: { params: Promise<{ id: string; emoji: string }> },
 ) {
   try {
-    // Check authentication
-    const { userId } = await auth();
+    // Check authentication and get params in parallel
+    const [authResult, resolvedParams] = await Promise.all([
+      auth(),
+      params,
+    ]);
+
+    const { userId } = authResult;
 
     if (!userId) {
       return NextResponse.json(
@@ -105,12 +115,10 @@ export async function DELETE(
       );
     }
 
-    const { id: campaignId, emoji } = await params;
-
-    // Decode emoji from URL
+    const { id: campaignId, emoji } = resolvedParams;
     const decodedEmoji = decodeURIComponent(emoji);
 
-    // Remove reaction
+    // Remove reaction - single query
     const result = await db
       .delete(campaignEmojiReactions)
       .where(
@@ -120,7 +128,7 @@ export async function DELETE(
           eq(campaignEmojiReactions.emoji, decodedEmoji),
         ),
       )
-      .returning();
+      .returning({ id: campaignEmojiReactions.id });
 
     if (result.length === 0) {
       return NextResponse.json(

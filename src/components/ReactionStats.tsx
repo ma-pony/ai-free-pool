@@ -4,6 +4,7 @@ import type { ReactionStats as ReactionStatsType } from '@/services/ReactionServ
 import { useTranslations } from 'next-intl';
 import { useEffect, useState } from 'react';
 import { QuickReactionButtons } from './QuickReactionButtons';
+import { useReactionOptional } from './ReactionProvider';
 
 type ReactionStatsProps = {
   campaignId: string;
@@ -13,15 +14,31 @@ type ReactionStatsProps = {
 
 /**
  * Display reaction statistics
+ * Uses ReactionProvider context for batch loading (avoids N+1)
  * Validates: Requirements 5.7
  */
 export function ReactionStats({ campaignId, compact = false, stats: initialStats }: ReactionStatsProps) {
   const t = useTranslations('Reactions');
-  const [stats, setStats] = useState<ReactionStatsType | null>(initialStats || null);
-  const [loading, setLoading] = useState(!initialStats);
+  const reactionContext = useReactionOptional();
 
+  // Get stats from context if available
+  const contextData = reactionContext?.getReactionData(campaignId);
+  const contextStats = contextData?.stats;
+
+  const [stats, setStats] = useState<ReactionStatsType | null>(initialStats || contextStats || null);
+  const [loading, setLoading] = useState(!initialStats && !contextStats);
+
+  // Update stats when context data changes
   useEffect(() => {
-    if (initialStats) {
+    if (contextStats && !initialStats) {
+      setStats(contextStats);
+      setLoading(false);
+    }
+  }, [contextStats, initialStats]);
+
+  // Fallback: fetch individually only if no context and no initial stats
+  useEffect(() => {
+    if (initialStats || contextStats || reactionContext) {
       return;
     }
 
@@ -30,7 +47,6 @@ export function ReactionStats({ campaignId, compact = false, stats: initialStats
         const response = await fetch(`/api/reactions/${campaignId}`);
         if (response.ok) {
           const result = await response.json();
-          // API returns { success: true, data: { stats, userReaction } }
           if (result.success && result.data?.stats) {
             setStats(result.data.stats);
           }
@@ -43,7 +59,7 @@ export function ReactionStats({ campaignId, compact = false, stats: initialStats
     };
 
     fetchStats();
-  }, [campaignId, initialStats]);
+  }, [campaignId, initialStats, contextStats, reactionContext]);
 
   const refreshStats = async () => {
     try {
@@ -52,6 +68,13 @@ export function ReactionStats({ campaignId, compact = false, stats: initialStats
         const result = await response.json();
         if (result.success && result.data?.stats) {
           setStats(result.data.stats);
+          // Update context if available
+          if (reactionContext && result.data) {
+            reactionContext.updateReaction(campaignId, {
+              stats: result.data.stats,
+              userReaction: result.data.userReaction?.type || null,
+            });
+          }
         }
       }
     } catch (error) {

@@ -1,20 +1,16 @@
 'use client';
 
 import type { Campaign } from '@/types/Campaign';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { PendingCampaignList } from '@/components/admin/PendingCampaignList';
 
 export default function AdminPendingPage() {
   const [pendingCampaigns, setPendingCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const fetchedRef = useRef(false);
 
-  // Fetch pending campaigns
-  useEffect(() => {
-    fetchPendingCampaigns();
-  }, []);
-
-  const fetchPendingCampaigns = async () => {
+  const fetchPendingCampaigns = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch('/api/campaigns?status=pending');
@@ -31,7 +27,16 @@ export default function AdminPendingPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  // Fetch pending campaigns
+  useEffect(() => {
+    if (fetchedRef.current) {
+      return;
+    }
+    fetchedRef.current = true;
+    fetchPendingCampaigns();
+  }, [fetchPendingCampaigns]);
 
   const handleApprove = async (campaignId: string) => {
     try {

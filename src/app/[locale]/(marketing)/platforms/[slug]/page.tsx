@@ -3,6 +3,7 @@ import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 import CampaignCard from '@/components/CampaignCard';
+import { CampaignListWrapper } from '@/components/CampaignListWrapper';
 import { getCampaigns } from '@/services/CampaignService';
 import { getPlatformBySlug } from '@/services/PlatformService';
 
@@ -177,13 +178,15 @@ export default async function PlatformPage({ params }: PlatformPageProps) {
 
         {activeCampaigns.length > 0
           ? (
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {activeCampaigns.map(campaign => (
-                  <Suspense key={campaign.id} fallback={<CampaignCardSkeleton />}>
-                    <CampaignCard campaign={campaign} locale={locale} showPlatform={false} />
-                  </Suspense>
-                ))}
-              </div>
+              <CampaignListWrapper campaignIds={activeCampaigns.map(c => c.id)}>
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {activeCampaigns.map(campaign => (
+                    <Suspense key={campaign.id} fallback={<CampaignCardSkeleton />}>
+                      <CampaignCard campaign={campaign} locale={locale} showPlatform={false} />
+                    </Suspense>
+                  ))}
+                </div>
+              </CampaignListWrapper>
             )
           : (
               <div className="rounded-lg bg-white p-12 text-center shadow">
@@ -232,13 +235,15 @@ export default async function PlatformPage({ params }: PlatformPageProps) {
                 </svg>
               </summary>
 
-              <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {expiredCampaigns.map(campaign => (
-                  <Suspense key={campaign.id} fallback={<CampaignCardSkeleton />}>
-                    <CampaignCard campaign={campaign} locale={locale} showPlatform={false} />
-                  </Suspense>
-                ))}
-              </div>
+              <CampaignListWrapper campaignIds={expiredCampaigns.map(c => c.id)}>
+                <div className="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {expiredCampaigns.map(campaign => (
+                    <Suspense key={campaign.id} fallback={<CampaignCardSkeleton />}>
+                      <CampaignCard campaign={campaign} locale={locale} showPlatform={false} />
+                    </Suspense>
+                  ))}
+                </div>
+              </CampaignListWrapper>
             </details>
           </div>
         )}

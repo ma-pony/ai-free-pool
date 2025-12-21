@@ -2,7 +2,7 @@
 
 import type { Tag } from '@/types/Campaign';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { TagCloud } from '@/components/TagCloud';
 import { TagListView } from '@/components/TagListView';
 
@@ -14,12 +14,9 @@ export default function TagsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<'cloud' | 'list'>('cloud');
+  const fetchedRef = useRef(false);
 
-  useEffect(() => {
-    fetchTags();
-  }, []);
-
-  const fetchTags = async () => {
+  const fetchTags = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch('/api/tags?withCounts=true&hasActiveCampaigns=true');
@@ -36,7 +33,15 @@ export default function TagsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (fetchedRef.current) {
+      return;
+    }
+    fetchedRef.current = true;
+    fetchTags();
+  }, [fetchTags]);
 
   const handleTagClick = (tag: Tag) => {
     // Navigate to campaigns page with tag filter

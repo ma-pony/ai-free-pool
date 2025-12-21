@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { BookmarkButtonV2 } from '@/components/actions';
 import { CommentSection } from '@/components/comments/CommentSection';
 import CountdownTimer from '@/components/CountdownTimer';
+import { ParticipationButton } from '@/components/ParticipationButton';
 import PopularityIndicator from '@/components/PopularityIndicator';
 import { ReactionButtons } from '@/components/ReactionButtons';
 import { ShareButton } from '@/components/ShareButton';
@@ -186,6 +187,7 @@ export default async function CampaignDetailPage({ params }: CampaignDetailPageP
               </h1>
 
               <div className="flex flex-wrap items-center gap-3">
+                <ParticipationButton campaignId={campaign.id} compact={false} />
                 <BookmarkButtonV2 campaignId={campaign.id} compact={false} />
                 <ShareButton
                   title={translation.title}

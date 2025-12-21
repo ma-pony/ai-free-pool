@@ -16,13 +16,13 @@ export async function GET(
   { params }: { params: Promise<{ campaignId: string }> },
 ) {
   try {
-    const { userId } = await auth();
+    // Parallel: auth + params
+    const [{ userId }, { campaignId }] = await Promise.all([auth(), params]);
 
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { campaignId } = await params;
     const bookmark = await getBookmark(userId, campaignId);
 
     return NextResponse.json({
@@ -50,13 +50,13 @@ export async function DELETE(
   { params }: { params: Promise<{ campaignId: string }> },
 ) {
   try {
-    const { userId } = await auth();
+    // Parallel: auth + params
+    const [{ userId }, { campaignId }] = await Promise.all([auth(), params]);
 
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { campaignId } = await params;
     const removed = await removeBookmark(userId, campaignId);
 
     if (!removed) {
@@ -85,13 +85,13 @@ export async function POST(
   { params }: { params: Promise<{ campaignId: string }> },
 ) {
   try {
-    const { userId } = await auth();
+    // Parallel: auth + params
+    const [{ userId }, { campaignId }] = await Promise.all([auth(), params]);
 
     if (!userId) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { campaignId } = await params;
     const result = await toggleBookmark(userId, campaignId);
 
     return NextResponse.json({

@@ -2,7 +2,7 @@
 
 import type { Campaign } from '@/types/Campaign';
 import { useTranslations } from 'next-intl';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import CampaignSelector from './CampaignSelector';
 
 type CampaignWithStats = Campaign & {
@@ -21,12 +21,9 @@ export default function FeaturedCampaignList() {
   const [showSetFeaturedModal, setShowSetFeaturedModal] = useState(false);
   const [selectedCampaignId, setSelectedCampaignId] = useState<string | null>(null);
   const [featuredUntil, setFeaturedUntil] = useState('');
+  const fetchedRef = useRef(false);
 
-  useEffect(() => {
-    fetchFeaturedCampaigns();
-  }, []);
-
-  const fetchFeaturedCampaigns = async () => {
+  const fetchFeaturedCampaigns = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -52,7 +49,15 @@ export default function FeaturedCampaignList() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (fetchedRef.current) {
+      return;
+    }
+    fetchedRef.current = true;
+    fetchFeaturedCampaigns();
+  }, [fetchFeaturedCampaigns]);
 
   const handleRemoveFeatured = async (campaignId: string) => {
     if (!confirm(t('confirm_remove_featured'))) {

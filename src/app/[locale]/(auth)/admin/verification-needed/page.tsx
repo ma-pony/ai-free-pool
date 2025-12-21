@@ -1,19 +1,16 @@
 'use client';
 
 import type { Campaign } from '@/types/Campaign';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { VerificationNeededList } from '@/components/admin/VerificationNeededList';
 
 export default function AdminVerificationNeededPage() {
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const fetchedRef = useRef(false);
 
-  useEffect(() => {
-    fetchVerificationNeeded();
-  }, []);
-
-  const fetchVerificationNeeded = async () => {
+  const fetchVerificationNeeded = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch('/api/admin/verification-needed');
@@ -30,7 +27,15 @@ export default function AdminVerificationNeededPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (fetchedRef.current) {
+      return;
+    }
+    fetchedRef.current = true;
+    fetchVerificationNeeded();
+  }, [fetchVerificationNeeded]);
 
   const handleVerify = async (campaignId: string) => {
     try {

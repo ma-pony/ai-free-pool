@@ -2,7 +2,7 @@
 
 import type { Tag } from '@/types/Campaign';
 import type { CreateTagInput } from '@/validations/CampaignValidation';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { TagForm } from '@/components/admin/TagForm';
 import { TagList } from '@/components/admin/TagList';
 
@@ -14,13 +14,9 @@ export default function AdminTagsPage() {
   const [showForm, setShowForm] = useState(false);
   const [editingTag, setEditingTag] = useState<Tag | undefined>();
   const [error, setError] = useState<string | null>(null);
+  const fetchedRef = useRef(false);
 
-  // Fetch tags
-  useEffect(() => {
-    fetchTags();
-  }, []);
-
-  const fetchTags = async () => {
+  const fetchTags = useCallback(async () => {
     try {
       setLoading(true);
       const response = await fetch('/api/tags?withCounts=true');
@@ -37,7 +33,16 @@ export default function AdminTagsPage() {
     } finally {
       setLoading(false);
     }
-  };
+  }, []);
+
+  // Fetch tags
+  useEffect(() => {
+    if (fetchedRef.current) {
+      return;
+    }
+    fetchedRef.current = true;
+    fetchTags();
+  }, [fetchTags]);
 
   const handleCreate = () => {
     setEditingTag(undefined);

@@ -15,18 +15,24 @@ import { useTranslations } from 'next-intl';
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react';
+import { BookmarkButton } from '@/components/BookmarkButton';
+import { ParticipationButton } from '@/components/ParticipationButton';
 import { trackCampaignClick } from '@/libs/Analytics';
 
 type CampaignCardCompactProps = {
   campaign: Campaign;
   locale: string;
   showPlatform?: boolean;
+  showBookmark?: boolean;
+  showParticipation?: boolean;
 };
 
 export function CampaignCardCompact({
   campaign,
   locale,
   showPlatform = true,
+  showBookmark = true,
+  showParticipation = true,
 }: CampaignCardCompactProps) {
   const t = useTranslations('Index');
 
@@ -147,11 +153,24 @@ export function CampaignCardCompact({
         </div>
       </div>
 
-      {/* 箭头指示 */}
-      <div className="shrink-0 self-center text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-blue-500">
-        <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-        </svg>
+      {/* 右侧操作区 */}
+      <div className="flex shrink-0 items-center gap-2 self-center">
+        {/* 参与按钮 */}
+        {showParticipation && (
+          <ParticipationButton campaignId={campaign.id} compact={true} />
+        )}
+
+        {/* 收藏按钮 */}
+        {showBookmark && (
+          <BookmarkButton campaignId={campaign.id} compact={true} />
+        )}
+
+        {/* 箭头指示 */}
+        <div className="text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-blue-500">
+          <svg className="size-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
       </div>
     </Link>
   );

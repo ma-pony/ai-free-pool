@@ -15,6 +15,7 @@ import {
   conditionTags,
   platforms,
   tags,
+  userParticipatedCampaigns,
 } from '@/models/Schema';
 import {
   detectLanguage,
@@ -134,6 +135,17 @@ export async function getCampaigns(filters?: CampaignListFilters): Promise<Campa
     );
   }
 
+  // Exclude campaigns that the user has already participated in
+  if (filters?.excludeParticipatedByUserId) {
+    conditions.push(
+      sql`NOT EXISTS (
+        SELECT 1 FROM ${userParticipatedCampaigns}
+        WHERE ${userParticipatedCampaigns.campaignId} = ${campaigns.id}
+        AND ${userParticipatedCampaigns.userId} = ${filters.excludeParticipatedByUserId}
+      )`,
+    );
+  }
+
   // Determine sort order (Requirement 9.7)
   let orderByClause;
   switch (filters?.sortBy) {
@@ -182,27 +194,34 @@ export async function getCampaigns(filters?: CampaignListFilters): Promise<Campa
   });
 
   // WORKAROUND: db.query doesn't include pendingPlatform field
-  // Manually fetch it for campaigns without platformId
-  const fixed = await Promise.all(
-    result.map(async (campaign) => {
-      if (!campaign.platformId) {
-        const [fullData] = await db
-          .select({ pendingPlatform: campaigns.pendingPlatform })
-          .from(campaigns)
-          .where(eq(campaigns.id, campaign.id))
-          .limit(1);
+  // Batch fetch pendingPlatform for campaigns without platformId to avoid N+1
+  const campaignsWithoutPlatform = result.filter(c => !c.platformId);
+  let pendingPlatformMap: Map<string, unknown> = new Map();
 
-        return {
-          ...campaign,
-          pendingPlatform: fullData?.pendingPlatform || null,
-        };
-      }
+  if (campaignsWithoutPlatform.length > 0) {
+    const campaignIds = campaignsWithoutPlatform.map(c => c.id);
+    const pendingPlatformData = await db
+      .select({ id: campaigns.id, pendingPlatform: campaigns.pendingPlatform })
+      .from(campaigns)
+      .where(inArray(campaigns.id, campaignIds));
+
+    pendingPlatformMap = new Map(
+      pendingPlatformData.map(d => [d.id, d.pendingPlatform]),
+    );
+  }
+
+  const fixed = result.map((campaign) => {
+    if (!campaign.platformId) {
       return {
         ...campaign,
-        pendingPlatform: null,
+        pendingPlatform: pendingPlatformMap.get(campaign.id) || null,
       };
-    }),
-  );
+    }
+    return {
+      ...campaign,
+      pendingPlatform: null,
+    };
+  });
 
   // Transform the result to match Campaign type
   // The query returns conditionTags as junction records with nested tag objects

@@ -118,6 +118,7 @@ export async function getCampaignStats(
 /**
  * Get statistics for all featured campaigns
  * Validates: Requirements 12.5
+ * Optimized: Uses batch queries instead of N+1 individual queries
  */
 export async function getAllFeaturedStats(
   startDate?: Date,
@@ -129,14 +130,77 @@ export async function getAllFeaturedStats(
     .from(campaigns)
     .where(eq(campaigns.isFeatured, true));
 
-  // Get stats for each campaign
-  const stats = await Promise.all(
-    featuredCampaigns.map(campaign =>
-      getCampaignStats(campaign.id, startDate, endDate),
-    ),
-  );
+  if (featuredCampaigns.length === 0) {
+    return [];
+  }
 
-  return stats;
+  const campaignIds = featuredCampaigns.map(c => c.id);
+
+  // Build date conditions for impressions
+  const impressionDateConditions = [];
+  if (startDate) {
+    impressionDateConditions.push(gte(featuredImpressions.createdAt, startDate));
+  }
+  if (endDate) {
+    impressionDateConditions.push(sql`${featuredImpressions.createdAt} <= ${endDate}`);
+  }
+
+  // Build date conditions for clicks
+  const clickDateConditions = [];
+  if (startDate) {
+    clickDateConditions.push(gte(featuredClicks.createdAt, startDate));
+  }
+  if (endDate) {
+    clickDateConditions.push(sql`${featuredClicks.createdAt} <= ${endDate}`);
+  }
+
+  // Batch query for impressions grouped by campaign
+  const impressionsQuery = await db
+    .select({
+      campaignId: featuredImpressions.campaignId,
+      count: sql<number>`count(*)::int`,
+    })
+    .from(featuredImpressions)
+    .where(
+      and(
+        sql`${featuredImpressions.campaignId} = ANY(${campaignIds})`,
+        ...impressionDateConditions,
+      ),
+    )
+    .groupBy(featuredImpressions.campaignId);
+
+  // Batch query for clicks grouped by campaign
+  const clicksQuery = await db
+    .select({
+      campaignId: featuredClicks.campaignId,
+      count: sql<number>`count(*)::int`,
+    })
+    .from(featuredClicks)
+    .where(
+      and(
+        sql`${featuredClicks.campaignId} = ANY(${campaignIds})`,
+        ...clickDateConditions,
+      ),
+    )
+    .groupBy(featuredClicks.campaignId);
+
+  // Build maps for quick lookup
+  const impressionsMap = new Map(impressionsQuery.map(r => [r.campaignId, r.count]));
+  const clicksMap = new Map(clicksQuery.map(r => [r.campaignId, r.count]));
+
+  // Build stats for each campaign
+  return campaignIds.map((campaignId) => {
+    const impressions = impressionsMap.get(campaignId) || 0;
+    const clicks = clicksMap.get(campaignId) || 0;
+    const clickThroughRate = impressions > 0 ? (clicks / impressions) * 100 : 0;
+
+    return {
+      campaignId,
+      impressions,
+      clicks,
+      clickThroughRate: Math.round(clickThroughRate * 100) / 100,
+    };
+  });
 }
 
 /**

@@ -232,3 +232,16 @@ export async function removeAllBookmarksForCampaign(campaignId: string): Promise
 
   return result.length;
 }
+
+/**
+ * Get all bookmarked campaign IDs for a user (useful for batch status checking)
+ * This is optimized to avoid N+1 queries when displaying campaign lists
+ */
+export async function getBookmarkedCampaignIds(userId: string): Promise<string[]> {
+  const result = await db
+    .select({ campaignId: bookmarks.campaignId })
+    .from(bookmarks)
+    .where(eq(bookmarks.userId, userId));
+
+  return result.map(r => r.campaignId);
+}

@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { getTranslations, setRequestLocale } from 'next-intl/server';
 import Link from 'next/link';
 import CampaignCard from '@/components/CampaignCard';
+import { CampaignListWrapper } from '@/components/CampaignListWrapper';
 import CategoryLinks from '@/components/CategoryLinks';
 import EmptyState from '@/components/EmptyState';
 import FeaturedCarousel from '@/components/FeaturedCarousel';
@@ -215,16 +216,18 @@ export default async function Index(props: IIndexProps) {
 
         {recentCampaigns.length > 0
           ? (
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-                {recentCampaigns.map(campaign => (
-                  <CampaignCard
-                    key={campaign.id}
-                    campaign={campaign}
-                    locale={locale}
-                    showPlatform
-                  />
-                ))}
-              </div>
+              <CampaignListWrapper campaignIds={recentCampaigns.map(c => c.id)}>
+                <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+                  {recentCampaigns.map(campaign => (
+                    <CampaignCard
+                      key={campaign.id}
+                      campaign={campaign}
+                      locale={locale}
+                      showPlatform
+                    />
+                  ))}
+                </div>
+              </CampaignListWrapper>
             )
           : (
               <EmptyState

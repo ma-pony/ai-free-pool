@@ -8,6 +8,7 @@ import React from 'react';
 import { trackCampaignClick } from '@/libs/Analytics';
 import { BookmarkButton } from './BookmarkButton';
 import { CampaignEmojiReactions } from './CampaignEmojiReactions';
+import { ParticipationButton } from './ParticipationButton';
 import { ReactionStats } from './ReactionStats';
 
 type CampaignCardProps = {
@@ -17,6 +18,7 @@ type CampaignCardProps = {
   isFeatured?: boolean;
   showReactions?: boolean;
   showBookmark?: boolean;
+  showParticipation?: boolean;
 };
 
 /**
@@ -40,6 +42,7 @@ export default function CampaignCard({
   isFeatured = false,
   showReactions = true,
   showBookmark = true,
+  showParticipation = true,
 }: CampaignCardProps) {
   const t = useTranslations('Index');
 
@@ -99,7 +102,7 @@ export default function CampaignCard({
   };
 
   return (
-    <div className={`group card-hover-effect animate-fade-in-up relative overflow-hidden rounded-xl border-2 bg-white shadow-md ${
+    <div className={`group card-hover-effect animate-fade-in-up relative rounded-xl border-2 bg-white shadow-md ${
       isFeatured || campaign.isFeatured
         ? 'border-yellow-400 bg-linear-to-br from-yellow-50 to-orange-50'
         : 'border-gray-200 hover:border-blue-300'
@@ -112,6 +115,13 @@ export default function CampaignCard({
           <div className="flex items-center gap-1 rounded-full bg-linear-to-r from-yellow-400 to-orange-500 px-2 py-1 text-xs font-medium text-white shadow-md sm:px-3">
             <span>⭐</span>
             <span className="hidden sm:inline">{t('featured')}</span>
+          </div>
+        )}
+
+        {/* Quick Participation Button */}
+        {showParticipation && (
+          <div className="shrink-0">
+            <ParticipationButton campaignId={campaign.id} compact={true} className="shadow-md" />
           </div>
         )}
 
