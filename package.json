@@ -46,7 +46,7 @@
     "crypto-js": "^4.2.0",
     "date-fns": "^4.1.0",
     "drizzle-orm": "^0.44.7",
-    "next": "^16.1.0",
+    "next": "^16.1.5",
     "next-intl": "^4.4.0",
     "openai": "^4.104.0",
     "papaparse": "^5.4.1",
