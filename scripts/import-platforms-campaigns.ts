@@ -184,6 +184,30 @@ const platformsData: PlatformData[] = [
     description: '基于Cloudflare全球网络的AI推理平台，提供50+开源模型，Free Plan可用',
     descriptionEn: 'AI inference platform on Cloudflare global network, 50+ open-source models, Free Plan available',
   },
+  // 17. Cerebras
+  {
+    name: 'Cerebras',
+    nameEn: 'Cerebras',
+    website: 'https://cloud.cerebras.ai',
+    description: '全球最快AI推理平台，比OpenAI/Anthropic快20倍，提供免费层级',
+    descriptionEn: 'World\'s fastest AI inference platform, 20x faster than OpenAI/Anthropic, free tier available',
+  },
+  // 18. SambaNova
+  {
+    name: 'SambaNova',
+    nameEn: 'SambaNova',
+    website: 'https://cloud.sambanova.ai',
+    description: '高性能AI推理云平台，提供免费访问DeepSeek、Llama 4等顶级开源模型',
+    descriptionEn: 'High-performance AI inference cloud, free access to DeepSeek, Llama 4 and other top open-source models',
+  },
+  // 19. HuggingFace Inference API
+  {
+    name: 'HuggingFace',
+    nameEn: 'HuggingFace',
+    website: 'https://huggingface.co/inference-api',
+    description: '统一AI推理API，一个接口访问18+提供商的数千个模型，零供应商锁定',
+    descriptionEn: 'Unified AI inference API, access thousands of models from 18+ providers through one interface, zero vendor lock-in',
+  },
 ];
 
 // 从文档中提取的所有活动数据（共11个）
@@ -363,6 +387,39 @@ const campaignsData: CampaignData[] = [
     officialLink: 'https://developers.cloudflare.com/workers-ai/',
     freeCredit: 'Free Plan（50+模型）',
     aiModels: ['LLaMA', 'Mistral', 'Stable Diffusion', 'Whisper'],
+  },
+  // 17. Cerebras
+  {
+    platformName: 'Cerebras',
+    title: 'Cerebras免费推理层级',
+    titleEn: 'Cerebras Free Inference Tier',
+    description: '注册即可使用免费层级，全球最快AI推理速度（比OpenAI/Anthropic快20倍），支持多种开源模型。',
+    descriptionEn: 'Register to use free tier, world\'s fastest AI inference (20x faster than OpenAI/Anthropic), supports multiple open-source models.',
+    officialLink: 'https://cloud.cerebras.ai',
+    freeCredit: '免费层级（速率限制）',
+    aiModels: ['Llama-3.3-70B', 'Llama-3.1-8B', 'Qwen3-32B', 'Qwen3-235B', 'GPT-OSS-120B'],
+  },
+  // 18. SambaNova
+  {
+    platformName: 'SambaNova',
+    title: 'SambaNova免费API访问',
+    titleEn: 'SambaNova Free API Access',
+    description: '注册即可免费访问DeepSeek-R1、Llama 4、Qwen3等顶级开源模型，OpenAI兼容API。',
+    descriptionEn: 'Register for free access to DeepSeek-R1, Llama 4, Qwen3 and other top open-source models, OpenAI-compatible API.',
+    officialLink: 'https://cloud.sambanova.ai',
+    freeCredit: '免费访问（速率限制）',
+    aiModels: ['DeepSeek-R1', 'DeepSeek-V3.2', 'Llama-4-Maverick', 'Llama-3.3-70B', 'Qwen3-235B'],
+  },
+  // 19. HuggingFace Inference API
+  {
+    platformName: 'HuggingFace',
+    title: 'HuggingFace统一推理API免费额度',
+    titleEn: 'HuggingFace Unified Inference API Free Quota',
+    description: '注册即获免费额度，一个API统一访问Cerebras、Groq、SambaNova等18+提供商的数千个模型，零供应商锁定。',
+    descriptionEn: 'Register to get free quota, one API to access thousands of models from 18+ providers including Cerebras, Groq, SambaNova, zero vendor lock-in.',
+    officialLink: 'https://huggingface.co/inference-api',
+    freeCredit: '免费额度（统一接口）',
+    aiModels: ['LLaMA', 'Mistral', 'Qwen', 'DeepSeek', 'Gemma', 'FLUX'],
   },
 ];
 
