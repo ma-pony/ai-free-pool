@@ -208,6 +208,78 @@ const platformsData: PlatformData[] = [
     description: '统一AI推理API，一个接口访问18+提供商的数千个模型，零供应商锁定',
     descriptionEn: 'Unified AI inference API, access thousands of models from 18+ providers through one interface, zero vendor lock-in',
   },
+  // 20. 讯飞星火
+  {
+    name: '讯飞星火',
+    nameEn: 'iFlytek Spark',
+    website: 'https://xinghuo.xfyun.cn',
+    description: '科大讯飞AI大模型平台，提供星火系列模型，语音能力突出',
+    descriptionEn: 'iFlytek AI LLM platform, provides Spark series models with outstanding voice capabilities',
+  },
+  // 21. 商汤日日新
+  {
+    name: '商汤日日新',
+    nameEn: 'SenseNova',
+    website: 'https://platform.sensenova.cn',
+    description: '商汤科技AI大模型平台，多模态能力强，提供SenseChat系列模型',
+    descriptionEn: 'SenseTime AI LLM platform with strong multimodal capabilities, provides SenseChat series models',
+  },
+  // 22. 昆仑万维/天工
+  {
+    name: '天工AI',
+    nameEn: 'Skywork',
+    website: 'https://www.tiangong.cn',
+    description: '昆仑万维自研AI大模型平台，提供天工系列模型',
+    descriptionEn: 'Kunlun Tech self-developed AI LLM platform, provides Skywork series models',
+  },
+  // 23. 阶跃星辰
+  {
+    name: '阶跃星辰',
+    nameEn: 'StepFun',
+    website: 'https://platform.stepfun.com',
+    description: '阶跃星辰AI平台，长文本能力突出，支持128K超长上下文',
+    descriptionEn: 'StepFun AI platform, outstanding long-text capability, supports 128K ultra-long context',
+  },
+  // 24. MiniMax
+  {
+    name: 'MiniMax',
+    nameEn: 'MiniMax',
+    website: 'https://www.minimaxi.com',
+    description: 'MiniMax AI开放平台，提供文本、语音、视频等多模态模型',
+    descriptionEn: 'MiniMax AI open platform, provides text, voice, video and other multimodal models',
+  },
+  // 25. 零一万物
+  {
+    name: '零一万物',
+    nameEn: '01.AI',
+    website: 'https://platform.lingyiwanwu.com',
+    description: '李开复创立的AI平台，提供Yi系列大模型，免费额度大',
+    descriptionEn: 'AI platform founded by Kai-Fu Lee, provides Yi series LLMs with generous free quota',
+  },
+  // 26. 百川智能
+  {
+    name: '百川智能',
+    nameEn: 'Baichuan AI',
+    website: 'https://platform.baichuan-ai.com',
+    description: '百川智能AI平台，提供Baichuan系列模型，搜索增强能力强',
+    descriptionEn: 'Baichuan AI platform, provides Baichuan series models with strong search-augmented capabilities',
+  },
+  // 27. OhMyGPT
+  {
+    name: 'OhMyGPT',
+    nameEn: 'OhMyGPT',
+    website: 'https://www.ohmygpt.com',
+    description: '第三方AI API聚合平台，支持GPT/Claude/Gemini等多种模型',
+    descriptionEn: 'Third-party AI API aggregation platform, supports GPT/Claude/Gemini and other models',
+  },
+  // 28. AiHubMix
+  {
+    name: 'AiHubMix',
+    nameEn: 'AiHubMix',
+    website: 'https://aihubmix.com',
+    description: '第三方AI模型聚合平台，聚合国内外主流模型，体验金较多',
+    descriptionEn: 'Third-party AI model aggregation platform, aggregates mainstream domestic and international models',
+  },
 ];
 
 // 从文档中提取的所有活动数据（共11个）
@@ -420,6 +492,105 @@ const campaignsData: CampaignData[] = [
     officialLink: 'https://huggingface.co/inference-api',
     freeCredit: '免费额度（统一接口）',
     aiModels: ['LLaMA', 'Mistral', 'Qwen', 'DeepSeek', 'Gemma', 'FLUX'],
+  },
+  // 20. 讯飞星火
+  {
+    platformName: '讯飞星火',
+    title: '讯飞星火新用户免费额度',
+    titleEn: 'iFlytek Spark New User Free Quota',
+    description: '注册+实名认证，新用户赠送200万tokens，支持星火Max/Pro/Lite等多个模型。',
+    descriptionEn: 'Register and verify identity, new users get 2 million tokens, supports Spark Max/Pro/Lite models.',
+    officialLink: 'https://xinghuo.xfyun.cn',
+    freeCredit: '200万tokens',
+    aiModels: ['Spark-Max', 'Spark-Pro', 'Spark-Lite'],
+  },
+  // 21. 商汤日日新
+  {
+    platformName: '商汤日日新',
+    title: '商汤日日新新用户免费额度',
+    titleEn: 'SenseNova New User Free Quota',
+    description: '注册+实名认证，新用户赠送500万tokens，多模态能力强。',
+    descriptionEn: 'Register and verify identity, new users get 5 million tokens, strong multimodal capabilities.',
+    officialLink: 'https://platform.sensenova.cn',
+    freeCredit: '500万tokens',
+    aiModels: ['SenseChat-5', 'SenseChat-Turbo', 'SenseChat-Character'],
+  },
+  // 22. 天工AI
+  {
+    platformName: '天工AI',
+    title: '天工AI新用户免费额度',
+    titleEn: 'Skywork New User Free Quota',
+    description: '注册新用户赠送100万tokens，昆仑万维自研天工大模型。',
+    descriptionEn: 'New users get 1 million tokens, Kunlun Tech self-developed Skywork LLM.',
+    officialLink: 'https://www.tiangong.cn',
+    freeCredit: '100万tokens',
+    aiModels: ['天工3.0', 'SkyChat'],
+  },
+  // 23. 阶跃星辰
+  {
+    platformName: '阶跃星辰',
+    title: '阶跃星辰新用户免费额度',
+    titleEn: 'StepFun New User Free Quota',
+    description: '注册新用户赠送1000万tokens，支持8K/32K/128K多种上下文长度，长文本能力突出。',
+    descriptionEn: 'New users get 10 million tokens, supports 8K/32K/128K context lengths, outstanding long-text capability.',
+    officialLink: 'https://platform.stepfun.com',
+    freeCredit: '1000万tokens',
+    aiModels: ['Step-1-8k', 'Step-1-32k', 'Step-1-128k', 'Step-1V'],
+  },
+  // 24. MiniMax
+  {
+    platformName: 'MiniMax',
+    title: 'MiniMax新用户代金券',
+    titleEn: 'MiniMax New User Voucher',
+    description: '注册+实名认证，新用户赠送100元代金券，支持文本、语音、视频等多模态模型。',
+    descriptionEn: 'Register and verify identity, new users get ¥100 voucher, supports text, voice, video multimodal models.',
+    officialLink: 'https://www.minimaxi.com',
+    freeCredit: '¥100代金券',
+    aiModels: ['abab6.5s', 'abab6.5g', 'MiniMax-Text-01'],
+  },
+  // 25. 零一万物
+  {
+    platformName: '零一万物',
+    title: '零一万物新用户免费额度',
+    titleEn: '01.AI New User Free Quota',
+    description: '注册新用户赠送1500万tokens，李开复创立，Yi系列模型性能优秀。',
+    descriptionEn: 'New users get 15 million tokens, founded by Kai-Fu Lee, Yi series models with excellent performance.',
+    officialLink: 'https://platform.lingyiwanwu.com',
+    freeCredit: '1500万tokens',
+    aiModels: ['Yi-Large', 'Yi-Medium', 'Yi-Vision'],
+  },
+  // 26. 百川智能
+  {
+    platformName: '百川智能',
+    title: '百川智能新用户免费额度',
+    titleEn: 'Baichuan AI New User Free Quota',
+    description: '注册+实名认证，新用户赠送100万tokens，搜索增强能力强。',
+    descriptionEn: 'Register and verify identity, new users get 1 million tokens, strong search-augmented capabilities.',
+    officialLink: 'https://platform.baichuan-ai.com',
+    freeCredit: '100万tokens',
+    aiModels: ['Baichuan2-Turbo', 'Baichuan2-53B'],
+  },
+  // 27. OhMyGPT
+  {
+    platformName: 'OhMyGPT',
+    title: 'OhMyGPT新用户体验金',
+    titleEn: 'OhMyGPT New User Trial Credit',
+    description: '注册新用户赠送10元体验金，支持GPT/Claude/Gemini等多种模型，签到送积分。',
+    descriptionEn: 'New users get ¥10 trial credit, supports GPT/Claude/Gemini and other models, daily check-in for points.',
+    officialLink: 'https://www.ohmygpt.com',
+    freeCredit: '¥10体验金',
+    aiModels: ['GPT-4', 'GPT-3.5', 'Claude', 'Gemini'],
+  },
+  // 28. AiHubMix
+  {
+    platformName: 'AiHubMix',
+    title: 'AiHubMix新用户体验金',
+    titleEn: 'AiHubMix New User Trial Credit',
+    description: '注册新用户赠送20元体验金，聚合国内外主流AI模型，每日签到送积分。',
+    descriptionEn: 'New users get ¥20 trial credit, aggregates mainstream domestic and international AI models, daily check-in for points.',
+    officialLink: 'https://aihubmix.com',
+    freeCredit: '¥20体验金',
+    aiModels: ['GPT-4', 'Claude-3.5', 'Qwen', 'GLM', 'DeepSeek'],
   },
 ];
 
