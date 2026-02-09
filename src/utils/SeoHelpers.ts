@@ -1,7 +1,14 @@
 import type { Metadata } from 'next';
 import type { Campaign } from '@/types/Campaign';
 import type { Platform } from '@/types/Platform';
+import { AppConfig } from './AppConfig';
 import { getBaseUrl } from './Helpers';
+
+const OG_LOCALE_MAP: Record<string, string> = {
+  en: 'en_US',
+  zh: 'zh_CN',
+  fr: 'fr_FR',
+};
 
 /**
  * SEO Helpers
@@ -23,6 +30,7 @@ type SeoConfig = {
   publishedTime?: string;
   modifiedTime?: string;
   author?: string;
+  locale?: string;
 };
 
 /**
@@ -31,7 +39,19 @@ type SeoConfig = {
 export function generateMetadata(config: SeoConfig): Metadata {
   const baseUrl = getBaseUrl();
   const fullUrl = config.url ? `${baseUrl}${config.url}` : baseUrl;
-  const imageUrl = config.image || `${baseUrl}/assets/images/nextjs-starter-banner.png`;
+  const imageUrl = config.image || `${baseUrl}/og-image.png`;
+  const locale = config.locale || AppConfig.defaultLocale;
+  const ogLocale = OG_LOCALE_MAP[locale] || 'en_US';
+
+  // Build hreflang alternates
+  const languages = Object.fromEntries(
+    AppConfig.locales.map(l => [
+      l,
+      l === AppConfig.defaultLocale
+        ? fullUrl
+        : fullUrl.replace(baseUrl, `${baseUrl}/${l}`),
+    ]),
+  );
 
   return {
     title: config.title,
@@ -51,7 +71,7 @@ export function generateMetadata(config: SeoConfig): Metadata {
           alt: config.title,
         },
       ],
-      locale: 'en_US',
+      locale: ogLocale,
       type: config.type || 'website',
       ...(config.publishedTime && { publishedTime: config.publishedTime }),
       ...(config.modifiedTime && { modifiedTime: config.modifiedTime }),
@@ -64,6 +84,7 @@ export function generateMetadata(config: SeoConfig): Metadata {
     },
     alternates: {
       canonical: fullUrl,
+      languages,
     },
   };
 }
@@ -106,6 +127,7 @@ export function generateCampaignMetadata(
     publishedTime: campaign.createdAt?.toISOString(),
     modifiedTime: campaign.updatedAt?.toISOString(),
     author: campaign.submittedBy ?? undefined,
+    locale,
   });
 }
 
@@ -136,6 +158,7 @@ export function generatePlatformMetadata(
     image: platform.logo ?? undefined,
     url: `/platforms/${platform.slug}`,
     type: 'website',
+    locale: _locale,
   });
 }
 

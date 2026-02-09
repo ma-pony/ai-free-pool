@@ -14,6 +14,7 @@ import { routing } from '@/libs/I18nRouting';
 import '@/styles/global.css';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://aifreepool.com'),
   icons: [
     {
       rel: 'apple-touch-icon',
