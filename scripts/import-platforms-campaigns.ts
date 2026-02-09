@@ -680,39 +680,69 @@ async function main() {
         .limit(1);
 
       if (existingCampaign.length > 0) {
-        // 更新已有活动数据
-        await db
-          .update(campaigns)
-          .set({
-            freeCredit: campaignData.freeCredit,
-            officialLink: campaignData.officialLink,
-            aiModels: campaignData.aiModels,
-          })
-          .where(eq(campaigns.slug, slug));
+        const existing = existingCampaign[0]!;
 
-        // 更新中文翻译
-        const existingZh = await db
-          .select()
-          .from(campaignTranslations)
-          .where(eq(campaignTranslations.campaignId, existingCampaign[0]!.id))
-          .limit(10);
+        // 检查核心数据是否有变化
+        const dataChanged =
+          existing.freeCredit !== campaignData.freeCredit ||
+          JSON.stringify(existing.aiModels) !== JSON.stringify(campaignData.aiModels);
 
-        for (const t of existingZh) {
-          if (t.locale === 'zh') {
-            await db
-              .update(campaignTranslations)
-              .set({ title: campaignData.title, description: campaignData.description })
-              .where(eq(campaignTranslations.id, t.id));
-          } else if (t.locale === 'en') {
-            await db
-              .update(campaignTranslations)
-              .set({ title: campaignData.titleEn, description: campaignData.descriptionEn })
-              .where(eq(campaignTranslations.id, t.id));
-          }
+        if (!dataChanged) {
+          console.log(`✓ 活动无变化，跳过: ${campaignData.title} (${slug})`);
+          skipCount++;
+          continue;
         }
 
-        console.log(`✓ 更新活动: ${campaignData.title} (${slug})`);
-        successCount++;
+        // 数据有变化：将旧活动标记为 expired
+        await db
+          .update(campaigns)
+          .set({ status: 'expired' })
+          .where(eq(campaigns.id, existing.id));
+        console.log(`⏰ 旧活动已过期: ${campaignData.title} (${slug})`);
+
+        // 用新 slug 创建新活动（加版本号避免冲突）
+        const version = Date.now().toString(36);
+        const newSlug = `${slug}-v${version}`;
+
+        try {
+          const [newCampaign] = await db
+            .insert(campaigns)
+            .values({
+              platformId,
+              slug: newSlug,
+              status: 'published',
+              freeCredit: campaignData.freeCredit,
+              officialLink: campaignData.officialLink,
+              aiModels: campaignData.aiModels,
+              difficultyLevel: 'easy',
+              isFeatured: false,
+              needsVerification: false,
+            })
+            .returning();
+
+          await db.insert(campaignTranslations).values([
+            {
+              campaignId: newCampaign!.id,
+              locale: 'zh',
+              title: campaignData.title,
+              description: campaignData.description,
+              isAiGenerated: false,
+            },
+            {
+              campaignId: newCampaign!.id,
+              locale: 'en',
+              title: campaignData.titleEn,
+              description: campaignData.descriptionEn,
+              isAiGenerated: false,
+            },
+          ]);
+
+          console.log(`✓ 创建新版活动: ${campaignData.title} (${newSlug})`);
+          successCount++;
+        } catch (error) {
+          console.log(`✗ 创建新版活动失败: ${campaignData.title} - ${error}`);
+          skipCount++;
+        }
         continue;
       }
 
