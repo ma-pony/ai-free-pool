@@ -68,3 +68,9 @@ build-archive.log
 .idea
 .env
 .env.production
+
+# Research reports
+*-research.md
+*-report.md
+*-verified-data.md
+platform-data-update.md

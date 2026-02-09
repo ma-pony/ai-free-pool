@@ -60,6 +60,14 @@ export default async function RootLayout(props: {
 
   return (
     <html lang={locale} suppressHydrationWarning>
+      <head>
+        <meta name="google-adsense-account" content="ca-pub-8425376455595468" />
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8425376455595468"
+          crossOrigin="anonymous"
+        />
+      </head>
       <body suppressHydrationWarning>
         <ClerkProvider>
           <NextIntlClientProvider locale={locale} messages={messages}>
