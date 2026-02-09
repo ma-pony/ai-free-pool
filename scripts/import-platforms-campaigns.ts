@@ -160,6 +160,30 @@ const platformsData: PlatformData[] = [
     description: '基于LPU架构的高速AI推理平台，提供免费API',
     descriptionEn: 'High-speed AI inference platform based on LPU architecture, provides free API',
   },
+  // 14. 腾讯混元
+  {
+    name: '腾讯混元',
+    nameEn: 'Tencent Hunyuan',
+    website: 'https://cloud.tencent.com/product/hunyuan',
+    description: '腾讯云AI大模型平台，提供混元系列模型，支持文本、图像、视频、3D等多模态能力',
+    descriptionEn: 'Tencent Cloud AI LLM platform, provides Hunyuan series models with text, image, video, and 3D multimodal capabilities',
+  },
+  // 15. 百度千帆
+  {
+    name: '百度千帆',
+    nameEn: 'Baidu Qianfan',
+    website: 'https://cloud.baidu.com/product/wenxinworkshop',
+    description: '百度智能云AI开发平台，提供文心大模型及丰富的AI组件',
+    descriptionEn: 'Baidu AI Cloud development platform, provides ERNIE models and rich AI components',
+  },
+  // 16. Cloudflare Workers AI
+  {
+    name: 'Cloudflare Workers AI',
+    nameEn: 'Cloudflare Workers AI',
+    website: 'https://developers.cloudflare.com/workers-ai/',
+    description: '基于Cloudflare全球网络的AI推理平台，提供50+开源模型，Free Plan可用',
+    descriptionEn: 'AI inference platform on Cloudflare global network, 50+ open-source models, Free Plan available',
+  },
 ];
 
 // 从文档中提取的所有活动数据（共11个）
@@ -306,6 +330,39 @@ const campaignsData: CampaignData[] = [
     officialLink: 'https://console.groq.com/keys',
     freeCredit: '免费API（有速率限制）',
     aiModels: ['LLaMA', 'Mixtral', 'Gemma'],
+  },
+  // 14. 腾讯混元
+  {
+    platformName: '腾讯混元',
+    title: '腾讯混元新用户免费额度',
+    titleEn: 'Tencent Hunyuan New User Free Quota',
+    description: '新用户注册+实名认证，赠送100万token（文本模型共享）+ embedding 100万token + 混元生图50次 + 混元生3D 10次，有效期1年。',
+    descriptionEn: 'New users get 1M tokens (shared across text models) + 1M embedding tokens + 50 image generations + 10 3D generations, valid for 1 year.',
+    officialLink: 'https://cloud.tencent.com/product/hunyuan',
+    freeCredit: '100万token + 生图50次',
+    aiModels: ['Hunyuan-T1', 'Hunyuan-TurboS', 'HY-2.0-Think', 'HY-2.0-Instruct', 'Hunyuan-Vision'],
+  },
+  // 15. 百度千帆
+  {
+    platformName: '百度千帆',
+    title: '百度千帆免费组件调用',
+    titleEn: 'Baidu Qianfan Free Component Calls',
+    description: '注册+实名认证，百度搜索/智能搜索/百科等组件每天100次免费调用，通用OCR等1QPS免费。支持ERNIE 5.0等最新模型。',
+    descriptionEn: 'Register and verify identity, Baidu Search/Smart Search/Baike components 100 free calls/day, OCR 1QPS free. Supports latest ERNIE 5.0 models.',
+    officialLink: 'https://cloud.baidu.com/product/wenxinworkshop',
+    freeCredit: '多组件每天100次免费',
+    aiModels: ['ERNIE-5.0-Thinking', 'ERNIE-X1.1', 'ERNIE-4.5-Turbo', 'DeepSeek'],
+  },
+  // 16. Cloudflare Workers AI
+  {
+    platformName: 'Cloudflare Workers AI',
+    title: 'Cloudflare Workers AI免费计划',
+    titleEn: 'Cloudflare Workers AI Free Plan',
+    description: '注册Cloudflare账号即可使用Free Plan，提供50+开源模型免费推理，与Cloudflare全球网络深度集成。',
+    descriptionEn: 'Register Cloudflare account to use Free Plan, 50+ open-source models for free inference, deeply integrated with Cloudflare global network.',
+    officialLink: 'https://developers.cloudflare.com/workers-ai/',
+    freeCredit: 'Free Plan（50+模型）',
+    aiModels: ['LLaMA', 'Mistral', 'Stable Diffusion', 'Whisper'],
   },
 ];
 
