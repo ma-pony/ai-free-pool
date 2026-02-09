@@ -340,7 +340,16 @@ async function main() {
         .limit(1);
 
       if (existing.length > 0) {
-        console.log(`✓ 平台已存在: ${platformData.name} (${slug})`);
+        // 更新已有平台数据
+        await db
+          .update(platforms)
+          .set({
+            name: platformData.name,
+            website: platformData.website,
+            description: platformData.description,
+          })
+          .where(eq(platforms.slug, slug));
+        console.log(`✓ 更新平台: ${platformData.name} (${slug})`);
         platformMap.set(platformData.name, existing[0]!.id);
       } else {
         // 创建新平台
@@ -386,8 +395,39 @@ async function main() {
         .limit(1);
 
       if (existingCampaign.length > 0) {
-        console.log(`✓ 活动已存在: ${campaignData.title} (${slug})`);
-        skipCount++;
+        // 更新已有活动数据
+        await db
+          .update(campaigns)
+          .set({
+            freeCredit: campaignData.freeCredit,
+            officialLink: campaignData.officialLink,
+            aiModels: campaignData.aiModels,
+          })
+          .where(eq(campaigns.slug, slug));
+
+        // 更新中文翻译
+        const existingZh = await db
+          .select()
+          .from(campaignTranslations)
+          .where(eq(campaignTranslations.campaignId, existingCampaign[0]!.id))
+          .limit(10);
+
+        for (const t of existingZh) {
+          if (t.locale === 'zh') {
+            await db
+              .update(campaignTranslations)
+              .set({ title: campaignData.title, description: campaignData.description })
+              .where(eq(campaignTranslations.id, t.id));
+          } else if (t.locale === 'en') {
+            await db
+              .update(campaignTranslations)
+              .set({ title: campaignData.titleEn, description: campaignData.descriptionEn })
+              .where(eq(campaignTranslations.id, t.id));
+          }
+        }
+
+        console.log(`✓ 更新活动: ${campaignData.title} (${slug})`);
+        successCount++;
         continue;
       }
 
