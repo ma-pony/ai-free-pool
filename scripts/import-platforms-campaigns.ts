@@ -287,10 +287,10 @@ const campaignsData: CampaignData[] = [
   // 1. 智谱GLM官网
   {
     platformName: '智谱GLM官网',
-    title: '智谱GLM注册实名认证赠送',
-    titleEn: 'Zhipu GLM Registration Verification Gift',
-    description: '注册用户+实名认证，赠送2000万token体验包。多个模型完全免费（不限token），支持128K-200K上下文。',
-    descriptionEn: 'Register and verify identity to get 20 million token experience package. Multiple models are completely free (unlimited tokens), supporting 128K-200K context.',
+    title: '智谱GLM免费模型（不限token）',
+    titleEn: 'Zhipu GLM Free Models (Unlimited Tokens)',
+    description: '多个模型完全免费（不限token），包括GLM-4.7-Flash、GLM-4-Flash-250414、GLM-Z1-Flash等，支持128K-200K上下文。',
+    descriptionEn: 'Multiple models completely free (unlimited tokens), including GLM-4.7-Flash, GLM-4-Flash-250414, GLM-Z1-Flash, supporting 128K-200K context.',
     officialLink: 'https://www.bigmodel.cn/claude-code?ic=W6STVGJOK7',
     freeCredit: '多个模型完全免费（不限token）',
     aiModels: ['GLM-4.7', 'GLM-4.7-Flash', 'GLM-4-Flash-250414', 'GLM-Z1-Flash', 'GLM-4.6'],
@@ -298,8 +298,8 @@ const campaignsData: CampaignData[] = [
   // 2. 阿里云百炼平台
   {
     platformName: '阿里云百炼平台',
-    title: '阿里云百炼新用户免费额度',
-    titleEn: 'Aliyun Bailian New User Free Quota',
+    title: '阿里云百炼新用户7000万tokens',
+    titleEn: 'Aliyun Bailian New User 70M Tokens',
     description: '注册用户+实名认证，新用户一次性领取超7000万免费tokens，有效期90天。',
     descriptionEn: 'Register and verify identity, new users get over 70 million free tokens at once, valid for 90 days.',
     officialLink: 'https://www.aliyun.com/minisite/goods?userCode=gsjtjf7x',
@@ -342,8 +342,8 @@ const campaignsData: CampaignData[] = [
   // 6. 硅基流动
   {
     platformName: '硅基流动',
-    title: '硅基流动新用户赠送',
-    titleEn: 'Siliconflow New User Gift',
+    title: '硅基流动新用户2000万Tokens',
+    titleEn: 'Siliconflow New User 20M Tokens',
     description: '新用户手机注册即得2000万Tokens。',
     descriptionEn: 'New users get 20 million tokens upon phone registration.',
     officialLink: 'https://cloud.siliconflow.cn/i/oEtN4rtO',
@@ -364,8 +364,8 @@ const campaignsData: CampaignData[] = [
   // 8. ChatAnyWhere
   {
     platformName: 'ChatAnyWhere',
-    title: 'ChatAnyWhere免费API Key',
-    titleEn: 'ChatAnyWhere Free API Key',
+    title: 'ChatAnyWhere免费API Key（GPT-5系列）',
+    titleEn: 'ChatAnyWhere Free API Key (GPT-5 Series)',
     description: '点击官方链接领取免费API Key。免费版支持 gpt-5.2/5.1/5/4o(5次/天), deepseek-r1/v3(30次/天), gpt-4o-mini/3.5-turbo等(200次/天)。',
     descriptionEn: 'Get free API Key from official link. Free version supports gpt-5.2/5.1/5/4o (5 times/day), deepseek-r1/v3 (30 times/day), gpt-4o-mini/3.5-turbo etc. (200 times/day).',
     officialLink: 'https://github.com/chatanywhere/GPT_API_free',
