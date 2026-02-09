@@ -144,6 +144,22 @@ const platformsData: PlatformData[] = [
     description: 'GLM国外版，提供GLM系列模型',
     descriptionEn: 'International version of GLM, provides GLM series models',
   },
+  // 12. DeepSeek
+  {
+    name: 'DeepSeek',
+    nameEn: 'DeepSeek',
+    website: 'https://platform.deepseek.com',
+    description: 'DeepSeek官方API平台，提供DeepSeek-V3.2系列模型',
+    descriptionEn: 'DeepSeek official API platform, provides DeepSeek-V3.2 series models',
+  },
+  // 13. Groq
+  {
+    name: 'Groq',
+    nameEn: 'Groq',
+    website: 'https://groq.com',
+    description: '基于LPU架构的高速AI推理平台，提供免费API',
+    descriptionEn: 'High-speed AI inference platform based on LPU architecture, provides free API',
+  },
 ];
 
 // 从文档中提取的所有活动数据（共11个）
@@ -153,22 +169,22 @@ const campaignsData: CampaignData[] = [
     platformName: '智谱GLM官网',
     title: '智谱GLM注册实名认证赠送',
     titleEn: 'Zhipu GLM Registration Verification Gift',
-    description: '注册用户+实名认证，赠送2000万token体验包。',
-    descriptionEn: 'Register and verify identity to get 20 million token experience package.',
+    description: '注册用户+实名认证，赠送2000万token体验包。多个模型完全免费（不限token），支持128K-200K上下文。',
+    descriptionEn: 'Register and verify identity to get 20 million token experience package. Multiple models are completely free (unlimited tokens), supporting 128K-200K context.',
     officialLink: 'https://www.bigmodel.cn/claude-code?ic=W6STVGJOK7',
-    freeCredit: '2000万token',
-    aiModels: ['GLM-4', 'GLM-4-Flash', 'GLM-3-Turbo'],
+    freeCredit: '多个模型完全免费（不限token）',
+    aiModels: ['GLM-4.7', 'GLM-4.7-Flash', 'GLM-4-Flash-250414', 'GLM-Z1-Flash', 'GLM-4.6'],
   },
   // 2. 阿里云百炼平台
   {
     platformName: '阿里云百炼平台',
     title: '阿里云百炼新用户免费额度',
     titleEn: 'Aliyun Bailian New User Free Quota',
-    description: '注册用户+实名认证，每个模型免费100万Token。仅中国大陆版（北京）模型有免费额度，新人免费额度有效期通常是30~90天。',
-    descriptionEn: 'Register and verify identity to get 1 million free tokens per model. Only China mainland (Beijing) models have free quota, valid for 30-90 days.',
+    description: '注册用户+实名认证，新用户一次性领取超7000万免费tokens，有效期90天。',
+    descriptionEn: 'Register and verify identity, new users get over 70 million free tokens at once, valid for 90 days.',
     officialLink: 'https://www.aliyun.com/minisite/goods?userCode=gsjtjf7x',
-    freeCredit: '每模型100万Token',
-    aiModels: ['Qwen', 'DeepSeek', 'Kimi-K2', 'MiniMax'],
+    freeCredit: '新用户7000万tokens',
+    aiModels: ['Qwen3-Max', 'Qwen3-Flash', 'Qwen-Plus', 'Qwen-Turbo', 'DeepSeek', 'Kimi-K2', 'MiniMax'],
   },
   // 3. 火山引擎(豆包)
   {
@@ -208,10 +224,10 @@ const campaignsData: CampaignData[] = [
     platformName: '硅基流动',
     title: '硅基流动新用户赠送',
     titleEn: 'Siliconflow New User Gift',
-    description: '新用户手机注册赠送14元账户余额，另有Qwen、GLM、DeepSeek、混元部分免费模型可使用。',
-    descriptionEn: 'New users get ¥14 account balance with phone registration, plus free access to some Qwen, GLM, DeepSeek, Hunyuan models.',
+    description: '新用户手机注册即得2000万Tokens。',
+    descriptionEn: 'New users get 20 million tokens upon phone registration.',
     officialLink: 'https://cloud.siliconflow.cn/i/oEtN4rtO',
-    freeCredit: '¥14 + 部分免费模型',
+    freeCredit: '新用户2000万tokens',
     aiModels: ['DeepSeek', 'Qwen', 'GLM', 'Kimi', 'MiniMax', 'Hunyuan'],
   },
   // 7. OpenRouter
@@ -230,11 +246,11 @@ const campaignsData: CampaignData[] = [
     platformName: 'ChatAnyWhere',
     title: 'ChatAnyWhere免费API Key',
     titleEn: 'ChatAnyWhere Free API Key',
-    description: '点击官方链接领取免费API Key，限制200请求/天/IP&Key调用频率。免费版支持gpt-5.1, gpt-5, gpt-4o一天5次；deepseek-r1, deepseek-v3一天30次；gpt-4o-mini等一天200次。',
-    descriptionEn: 'Get free API Key from official link, limited to 200 requests/day. Free version supports gpt-5.1, gpt-5, gpt-4o 5 times/day; deepseek-r1, deepseek-v3 30 times/day; gpt-4o-mini etc. 200 times/day.',
+    description: '点击官方链接领取免费API Key。免费版支持 gpt-5.2/5.1/5/4o(5次/天), deepseek-r1/v3(30次/天), gpt-4o-mini/3.5-turbo等(200次/天)。',
+    descriptionEn: 'Get free API Key from official link. Free version supports gpt-5.2/5.1/5/4o (5 times/day), deepseek-r1/v3 (30 times/day), gpt-4o-mini/3.5-turbo etc. (200 times/day).',
     officialLink: 'https://github.com/chatanywhere/GPT_API_free',
     freeCredit: '200请求/天',
-    aiModels: ['GPT', 'DeepSeek', 'Claude', 'Gemini', 'Grok'],
+    aiModels: ['GPT-5.2', 'GPT-5.1', 'GPT-5', 'GPT-4o', 'DeepSeek-R1', 'DeepSeek-V3', 'Claude', 'Gemini', 'Grok'],
   },
   // 9. 302.ai
   {
@@ -268,6 +284,28 @@ const campaignsData: CampaignData[] = [
     officialLink: 'https://z.ai/chat',
     freeCredit: 'GLM-4.5-Flash永久免费',
     aiModels: ['GLM-4.5-Flash', 'GLM-4', 'GLM-3'],
+  },
+  // 12. DeepSeek
+  {
+    platformName: 'DeepSeek',
+    title: 'DeepSeek新用户赠送',
+    titleEn: 'DeepSeek New User Gift',
+    description: '新用户注册赠送余额，DeepSeek-V3.2价格极低（$0.28/1M input tokens）。',
+    descriptionEn: 'New users get balance upon registration. DeepSeek-V3.2 has extremely low pricing ($0.28/1M input tokens).',
+    officialLink: 'https://platform.deepseek.com',
+    freeCredit: '注册赠送余额',
+    aiModels: ['DeepSeek-V3.2', 'DeepSeek-R1'],
+  },
+  // 13. Groq
+  {
+    platformName: 'Groq',
+    title: 'Groq免费API',
+    titleEn: 'Groq Free API',
+    description: '注册即可获取免费API密钥，基于LPU架构提供超快推理速度。',
+    descriptionEn: 'Get free API key upon registration, provides ultra-fast inference speed based on LPU architecture.',
+    officialLink: 'https://console.groq.com/keys',
+    freeCredit: '免费API（有速率限制）',
+    aiModels: ['LLaMA', 'Mixtral', 'Gemma'],
   },
 ];
 
