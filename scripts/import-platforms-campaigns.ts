@@ -306,6 +306,30 @@ const platformsData: PlatformData[] = [
     description: 'NVIDIA AI推理微服务平台，新用户免费1000次API调用',
     descriptionEn: 'NVIDIA AI inference microservices platform, 1000 free API calls for new users',
   },
+  // 32. Fireworks AI
+  {
+    name: 'Fireworks AI',
+    nameEn: 'Fireworks AI',
+    website: 'https://fireworks.ai',
+    description: '高性能AI推理平台，无服务器架构支持最高6000 RPM，提供免费额度',
+    descriptionEn: 'High-performance AI inference platform, serverless architecture supporting up to 6000 RPM, free tier available',
+  },
+  // 33. GitHub Models
+  {
+    name: 'GitHub Models',
+    nameEn: 'GitHub Models',
+    website: 'https://github.com/marketplace/models',
+    description: 'GitHub官方AI模型市场，免费调用多款主流大语言模型，与GitHub生态深度集成',
+    descriptionEn: 'GitHub official AI model marketplace, free access to multiple mainstream LLMs, deeply integrated with GitHub ecosystem',
+  },
+  // 34. 魔搭社区
+  {
+    name: '魔搭社区',
+    nameEn: 'ModelScope',
+    website: 'https://www.modelscope.cn',
+    description: '阿里达摩院开源模型社区，每天2000次免费API调用，需绑定阿里云账号',
+    descriptionEn: 'Alibaba DAMO Academy open-source model community, 2000 free API calls per day, requires Alibaba Cloud account binding',
+  },
 ];
 
 // 从文档中提取的所有活动数据（共11个）
@@ -712,6 +736,45 @@ const campaignsData: CampaignData[] = [
     officialLink: 'https://build.nvidia.com/explore/discover',
     freeCredit: '1000次免费调用',
     aiModels: ['LLaMA-3.3', 'Mistral', 'Nemotron', 'DeepSeek'],
+  },
+  // 32. Fireworks AI
+  {
+    platformName: 'Fireworks AI',
+    title: 'Fireworks AI免费API额度',
+    titleEn: 'Fireworks AI Free API Credits',
+    titleFr: 'Crédits API gratuits Fireworks AI',
+    description: '注册即可获得免费API额度，无服务器架构支持最高每分钟6000次请求，日处理令牌峰值25亿个，支持LLaMA、DeepSeek等主流开源模型。',
+    descriptionEn: 'Register to get free API credits, serverless architecture supports up to 6000 RPM, 2.5 billion daily token peak, supports LLaMA, DeepSeek and other mainstream open-source models.',
+    descriptionFr: 'Inscrivez-vous pour obtenir des crédits API gratuits, architecture serverless supportant jusqu\'à 6000 RPM, pic de 2,5 milliards de tokens par jour, supporte LLaMA, DeepSeek et d\'autres modèles open-source.',
+    officialLink: 'https://fireworks.ai',
+    freeCredit: '免费额度（$1起步解锁）',
+    aiModels: ['LLaMA-3.1-405B', 'DeepSeek-R1', 'Mixtral', 'Qwen'],
+  },
+  // 33. GitHub Models
+  {
+    platformName: 'GitHub Models',
+    title: 'GitHub Models免费模型调用',
+    titleEn: 'GitHub Models Free Model Access',
+    titleFr: 'Accès gratuit aux modèles GitHub Models',
+    description: '拥有GitHub账户即可免费调用多款主流大语言模型，包括GPT-4o、Cohere Command R等，与GitHub代码仓库和Actions深度集成，速率限制与订阅级别挂钩。',
+    descriptionEn: 'Free access to multiple mainstream LLMs with a GitHub account, including GPT-4o, Cohere Command R, deeply integrated with GitHub repos and Actions, rate limits tied to subscription level.',
+    descriptionFr: 'Accès gratuit à plusieurs LLM avec un compte GitHub, y compris GPT-4o, Cohere Command R, intégré avec les dépôts GitHub et Actions, limites liées au niveau d\'abonnement.',
+    officialLink: 'https://github.com/marketplace/models',
+    freeCredit: '免费（GitHub账户即可）',
+    aiModels: ['GPT-4o', 'Cohere-Command-R', 'AI21-Jamba', 'Mistral'],
+  },
+  // 34. 魔搭社区
+  {
+    platformName: '魔搭社区',
+    title: '魔搭社区每天2000次免费API调用',
+    titleEn: 'ModelScope 2000 Free API Calls Per Day',
+    titleFr: 'ModelScope - 2000 appels API gratuits par jour',
+    description: '阿里达摩院开源模型社区，绑定阿里云账号后每天可免费调用2000次API，单个模型上限500次，支持社区全模型。',
+    descriptionEn: 'Alibaba DAMO Academy open-source model community, 2000 free API calls per day after binding Alibaba Cloud account, 500 calls per model limit, supports all community models.',
+    descriptionFr: 'Communauté de modèles open-source Alibaba DAMO Academy, 2000 appels API gratuits par jour après liaison du compte Alibaba Cloud, limite de 500 appels par modèle, supporte tous les modèles communautaires.',
+    officialLink: 'https://www.modelscope.cn',
+    freeCredit: '每天2000次调用',
+    aiModels: ['Qwen', 'DeepSeek', 'LLaMA', 'GLM', 'Yi'],
   },
 ];
 
