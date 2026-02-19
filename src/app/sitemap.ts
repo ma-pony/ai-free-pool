@@ -91,5 +91,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }),
   );
 
-  return [...staticPages, ...campaignPages, ...platformPages, ...categoryPages];
+  // Guide pages
+  const guidePages: MetadataRoute.Sitemap = [
+    ...buildLocalizedEntries('/guides/free-ai-credits-2026', baseUrl, {
+      changeFrequency: 'weekly',
+      priority: 0.9,
+    }),
+  ];
+
+  return [...staticPages, ...campaignPages, ...platformPages, ...categoryPages, ...guidePages];
 }

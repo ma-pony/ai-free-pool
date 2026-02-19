@@ -363,5 +363,29 @@
   "Sort": {
     "mostPopular": "Plus populaires",
     "alphabetical": "Alphabétique"
+  },
+  "Guide": {
+    "meta_title": "Guide complet des crédits API IA gratuits en 2026",
+    "meta_description": "Découvrez tous les crédits API IA gratuits disponibles en 2026. Comparez les plateformes, modèles et offres gratuites d'OpenAI, Anthropic, Google et plus.",
+    "title": "Guide complet des crédits API IA gratuits en 2026",
+    "subtitle": "Tous les crédits et essais IA gratuits disponibles actuellement, mis à jour régulièrement.",
+    "total_platforms": "Plateformes",
+    "total_campaigns": "Campagnes actives",
+    "platform_section_title": "Crédits gratuits par plateforme",
+    "free_credit": "Crédit gratuit",
+    "supported_models": "Modèles pris en charge",
+    "usage_limits": "Limites d'utilisation",
+    "get_started": "Commencer",
+    "view_details": "Voir les détails",
+    "faq_title": "Questions fréquemment posées",
+    "faq_q1": "Comment obtenir des crédits API IA gratuits ?",
+    "faq_a1": "La plupart des plateformes IA offrent des crédits gratuits ou d'essai aux nouveaux utilisateurs. Inscrivez-vous simplement sur le site de la plateforme et vous recevrez généralement des crédits gratuits automatiquement. Certaines plateformes nécessitent une vérification de carte bancaire, d'autres non.",
+    "faq_q2": "Les crédits IA gratuits expirent-ils ?",
+    "faq_a2": "Oui, la plupart des crédits IA gratuits ont une date d'expiration. La période de validité varie selon la plateforme — certaines offrent des crédits valables 30 jours, d'autres jusqu'à un an. Consultez les conditions de chaque plateforme.",
+    "faq_q3": "Puis-je utiliser les crédits gratuits pour des projets commerciaux ?",
+    "faq_a3": "Dans la plupart des cas, oui. Les crédits gratuits sont généralement soumis aux mêmes conditions d'utilisation que les crédits payants. Cependant, les offres gratuites peuvent avoir des limites de débit. Consultez toujours les conditions d'utilisation commerciale de la plateforme.",
+    "faq_q4": "Quelle plateforme IA offre le plus de crédits gratuits ?",
+    "faq_a4": "Le montant des crédits gratuits varie et change fréquemment. Visitez nos pages de plateformes pour la comparaison la plus à jour des offres de crédits gratuits.",
+    "not_found": "Guide non trouvé"
   }
 }

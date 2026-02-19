@@ -519,5 +519,29 @@
   "Sort": {
     "mostPopular": "最热门",
     "alphabetical": "按字母顺序"
+  },
+  "Guide": {
+    "meta_title": "2026年免费AI API额度完整指南",
+    "meta_description": "发现2026年所有可用的免费AI API额度。比较来自OpenAI、Anthropic、Google等平台的免费额度和模型。",
+    "title": "2026年免费AI API额度完整指南",
+    "subtitle": "汇总当前所有可获取的免费AI额度和试用，定期更新。",
+    "total_platforms": "平台数",
+    "total_campaigns": "活跃活动",
+    "platform_section_title": "按平台查看免费额度",
+    "free_credit": "免费额度",
+    "supported_models": "支持的模型",
+    "usage_limits": "使用限制",
+    "get_started": "立即获取",
+    "view_details": "查看详情",
+    "faq_title": "常见问题",
+    "faq_q1": "如何获取免费AI API额度？",
+    "faq_a1": "大多数AI平台为新用户提供免费额度或试用。只需在平台官网注册，通常会自动获得免费额度。部分平台需要信用卡验证，部分则不需要。",
+    "faq_q2": "免费AI额度会过期吗？",
+    "faq_a2": "是的，大多数免费AI额度有有效期。有效期因平台而异——有些提供30天有效的额度，有些则长达一年。请查看各平台的具体条款。",
+    "faq_q3": "免费额度可以用于商业项目吗？",
+    "faq_a3": "大多数情况下可以。免费额度通常与付费额度遵循相同的API服务条款。但免费额度可能有速率限制或使用限制。请务必查看平台的商业使用政策。",
+    "faq_q4": "哪个AI平台提供最多的免费额度？",
+    "faq_a4": "免费额度的数量经常变化。请访问我们的平台页面，获取所有主要AI平台免费额度的最新对比。",
+    "not_found": "指南未找到"
   }
 }

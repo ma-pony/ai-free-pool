@@ -467,5 +467,29 @@
   "Sort": {
     "mostPopular": "Most Popular",
     "alphabetical": "Alphabetical"
+  },
+  "Guide": {
+    "meta_title": "Complete Guide to Free AI API Credits in 2026",
+    "meta_description": "Discover all free AI API credits available in 2026. Compare platforms, models, and free tiers from OpenAI, Anthropic, Google, and more.",
+    "title": "Complete Guide to Free AI API Credits in 2026",
+    "subtitle": "All the free AI credits and trials you can get right now, updated regularly.",
+    "total_platforms": "Platforms",
+    "total_campaigns": "Active Campaigns",
+    "platform_section_title": "Free Credits by Platform",
+    "free_credit": "Free Credit",
+    "supported_models": "Supported Models",
+    "usage_limits": "Usage Limits",
+    "get_started": "Get Started",
+    "view_details": "View Details",
+    "faq_title": "Frequently Asked Questions",
+    "faq_q1": "How do I get free AI API credits?",
+    "faq_a1": "Most AI platforms offer free tiers or trial credits for new users. Simply sign up on the platform's website and you'll typically receive free credits automatically. Some platforms require credit card verification while others don't.",
+    "faq_q2": "Do free AI credits expire?",
+    "faq_a2": "Yes, most free AI credits have an expiration date. The validity period varies by platform — some offer credits valid for 30 days, while others provide credits that last up to a year. Check each platform's terms for specific details.",
+    "faq_q3": "Can I use free credits for commercial projects?",
+    "faq_a3": "In most cases, yes. Free tier credits generally come with the same API terms of service as paid credits. However, free tiers may have rate limits or usage restrictions. Always review the platform's terms of service for commercial use policies.",
+    "faq_q4": "Which AI platform offers the most free credits?",
+    "faq_a4": "The amount of free credits varies and changes frequently. Visit our platform pages for the most up-to-date comparison of free credit offerings across all major AI platforms.",
+    "not_found": "Guide not found"
   }
 }
